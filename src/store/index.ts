@@ -1,21 +1,22 @@
-import { createStore } from 'redux';
-import { SET_CURRENCIES } from './actions';
+export * from './actions';
+// import { createStore } from 'redux';
+// import { SET_CURRENCIES } from './actions';
 
-const initialState: State = {
-  currencies: [],
-};
+// const initialState = {
+//   currencies: [],
+// };
 
-const reducer = (state = initialState, action: Action) => {
-  switch (action.type) {
-    case SET_CURRENCIES:
-      return {
-        ...state,
-        currencies: [...action.payload],
-      };
+// const reducer = (state = initialState, action: Action) => {
+//   switch (action.type) {
+//     case SET_CURRENCIES:
+//       return {
+//         ...state,
+//         currencies: [...action.payload],
+//       };
 
-    default:
-      return state;
-  }
-};
+//     default:
+//       return state;
+//   }
+// };
 
-export const store = createStore(reducer);
+// export const store = createStore(reducer);

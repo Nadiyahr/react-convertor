@@ -1,28 +1,43 @@
 import React, { useEffect, useState } from 'react';
+import { Search } from './search';
 // import { useDispatch, useSelector } from 'react-redux';
 import './App.scss';
 
 // import { getCurrenciesSelector } from './store/selectors';
 // export { setCurrenciesAction} from './store/actions';
-import { getExchangeRates, getJsonApi } from './api';
+import { getExchangeRates, getJsonApiLayer } from './api';
 
 const App: React.FC = () => {
   const [currencies, setCurrencies] = useState<string[]>([]);
-  // const [from, setFrom] = useState<string[]>([]);
-  // const [to, setTo] = useState<string[]>([]);
   const [selectedFrom, setSelectedFrom] = useState('UAH');
   const [selectedTo, setSelectedTo] = useState('USD');
   const [amount, setAmount] = useState('');
   const [convert, setConvert] = useState(0);
+  // const [error, setError] = useState<Error | null>(null);
   // const dispatch = useDispatch();
   // const curretcies = useSelector(getCurrenciesSelector);
 
   const loadCurrencies = async () => {
-    const arrOfCurrencies: Currencies = await getJsonApi();
+    const arrOfCurrencies: any = await getJsonApiLayer();
 
-    // console.log(Object.keys(arrOfCurrencies.symbols));
-    setCurrencies(Object.keys(arrOfCurrencies.symbols));
-    // setTo(Object.keys(arrOfCurrencies.symbols));
+    console.log(arrOfCurrencies);
+
+    setCurrencies(arrOfCurrencies);
+  };
+
+  const getSelectedCurr = (str: string, type: string) => {
+    switch (type) {
+      case 'from':
+        setSelectedFrom(str);
+        break;
+
+      case 'to':
+        setSelectedTo(str);
+        break;
+
+      default:
+        break;
+    }
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
@@ -71,7 +86,17 @@ const App: React.FC = () => {
           onChange={(e) => handleChange(e)}
         />
       </label>
-      <label htmlFor="from" className="convertor__label">
+      <Search dataSelect={currencies} setCurr={getSelectedCurr} type="from" defaultVal={selectedFrom} />
+      <span
+        className="d-inline-block"
+        data-bs-toggle="popover"
+        data-bs-trigger="hover focus"
+        data-bs-content="Invert currencies"
+      >
+        convert to
+      </span>
+      <Search dataSelect={currencies} setCurr={getSelectedCurr} type="to" defaultVal={selectedTo} />
+      {/* <label htmlFor="from" className="convertor__label">
         Select a value from
         <select
           name="selectedFrom"
@@ -94,9 +119,10 @@ const App: React.FC = () => {
             <option key={curr}>{curr}</option>
           ))}
         </select>
-      </label>
+      </label> */}
       <button type="button" onClick={(e) => convertRes(e)}>Convert</button>
       <p>{convert}</p>
+      {/* <p>{error}</p> */}
     </section>
   );
 };

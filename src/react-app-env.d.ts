@@ -1,8 +1,8 @@
 /// <reference types="react-scripts" />
 
-interface State {
-  currencies: string[];
-}
+// interface State {
+//   currencies: string[];
+// }
 
 interface Action {
   type: string,

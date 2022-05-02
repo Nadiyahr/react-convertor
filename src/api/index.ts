@@ -1,7 +1,7 @@
-// const currencyHttp = 'http://free.currconv.com';
+const currencyHttp = 'http://free.currconv.com';
 // const exchange = 'https://api.exchangerate.host/latest';
-// const apiKey = 'dd3f60ee0680556feb45';
-// const apiKey ='QcNkBWCbg01lRNKI6H64YumEVU0shxS7';
+const apiKey = 'dd3f60ee0680556feb45';
+// const apiKey = 'QcNkBWCbg01lRNKI6H64YumEVU0shxS7';
 const myHeaders = new Headers();
 
 myHeaders.append('apikey', 'QcNkBWCbg01lRNKI6H64YumEVU0shxS7');
@@ -12,11 +12,34 @@ const requestOptions = {
   headers: myHeaders,
 };
 
-export const getJsonApi = () => {
+// const getJsonCurrencyConverterApi = () => {
+//   fetch(`${currencyHttp}/api/v7/currencies?apiKey=${apiKey}`);
+// .then(response => response.json())
+// .then((res) => Object.keys(res.results));
+// };
+
+export const getJsonApiLayer = () => {
   return fetch('https://api.apilayer.com/fixer/symbols', requestOptions)
-    .then(response => response.text())
-    .then(result => JSON.parse(result));
-  // .catch(error => console.log('error', error));
+    .then(async response => {
+      if (response.ok) {
+        return response.text();
+      }
+
+      const currencyConverterApi = fetch(`${currencyHttp}/api/v7/currencies?apiKey=${apiKey}`)
+        .then(res => res.json());
+
+      return currencyConverterApi;
+    })
+    .then(result => {
+      try {
+        return Object.keys(JSON.parse(result));
+      } catch (err) {
+        console.log(err);
+
+        return Object.keys(result.results);
+      }
+    });
+  // .catch((error: any) => console.log('error', error));
 };
 
 export const getExchangeRates = (amount: string, from: string, to: string) => {
