@@ -1,3 +1,25 @@
-.starter {
-  font-size: 18px;
+.convertor {
+  width: 400px;
+  padding: 20px;
+
+  &__conteiner {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__input {
+    max-width: 100%;
+  }
+
+  &__selectors {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  &__invert {
+    margin: 0 30px 0 20px;
+    height: 33px;
+    line-height: 18px;
+  }
 }

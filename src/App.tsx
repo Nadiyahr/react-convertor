@@ -1,29 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Search } from './search';
-// import { useDispatch, useSelector } from 'react-redux';
 import './App.scss';
-
-// import { getCurrenciesSelector } from './store/selectors';
-// export { setCurrenciesAction} from './store/actions';
-import { getExchangeRates, getJsonApiLayer } from './api';
+import { getExchangeRates } from './api';
+import { getCurrenciesSelector } from './store/selectors';
 
 const App: React.FC = () => {
-  const [currencies, setCurrencies] = useState<string[]>([]);
+  const currencies = useSelector(getCurrenciesSelector);
+  // const [currencies, setCurrencies] = useState<Currency[]>([]);
   const [selectedFrom, setSelectedFrom] = useState('UAH');
   const [selectedTo, setSelectedTo] = useState('USD');
   const [amount, setAmount] = useState('');
-  const [convert, setConvert] = useState(0);
+  const [convertAmount, setConvertAmount] = useState(0);
   // const [error, setError] = useState<Error | null>(null);
   // const dispatch = useDispatch();
   // const curretcies = useSelector(getCurrenciesSelector);
 
-  const loadCurrencies = async () => {
-    const arrOfCurrencies: any = await getJsonApiLayer();
+  // const loadCurrencies = async () => {
+  //   const arrOfCurrencies: Currency[] = await getJsonApiArray();
 
-    console.log(arrOfCurrencies);
+  //   console.log(arrOfCurrencies);
 
-    setCurrencies(arrOfCurrencies);
-  };
+  // setCurrencies(arrOfCurrencies);
+  // };
 
   const getSelectedCurr = (str: string, type: string) => {
     switch (type) {
@@ -63,67 +62,81 @@ const App: React.FC = () => {
     }
   };
 
-  const convertRes = async (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-    const getExchange: Result = await getExchangeRates(amount, selectedFrom, selectedTo);
+  const invertCurrencies = () => {
+    const from = selectedFrom;
+    const oldAmount = amount;
 
-    setConvert(getExchange.result);
+    setSelectedFrom(selectedTo);
+    setSelectedTo(from);
+    setAmount(convertAmount.toString());
+    setConvertAmount(+oldAmount);
   };
 
-  useEffect(() => {
-    loadCurrencies();
-  }, []);
+  const convertRes = async (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    const getExchange: Curr = await getExchangeRates(selectedFrom, selectedTo);
+    const exchange = +Object.values(getExchange)[0];
+    const result = +(exchange * +amount).toFixed(2);
+
+    setConvertAmount(result);
+  };
+
+  // useEffect(() => {
+  //   loadCurrencies();
+  // }, []);
 
   return (
-    <section className="convertor">
-      <h1 className="convertor__title">Convertor</h1>
-      <label htmlFor="amount">
-        <input
-          type="number"
-          name="amount"
-          id="amount"
-          value={amount}
-          onChange={(e) => handleChange(e)}
-        />
-      </label>
-      <Search dataSelect={currencies} setCurr={getSelectedCurr} type="from" defaultVal={selectedFrom} />
-      <span
-        className="d-inline-block"
-        data-bs-toggle="popover"
-        data-bs-trigger="hover focus"
-        data-bs-content="Invert currencies"
-      >
-        convert to
-      </span>
-      <Search dataSelect={currencies} setCurr={getSelectedCurr} type="to" defaultVal={selectedTo} />
-      {/* <label htmlFor="from" className="convertor__label">
-        Select a value from
-        <select
-          name="selectedFrom"
-          value={selectedFrom}
-          onChange={(e) => handleChange(e)}
-        >
-          {currencies.map((curr) => (
-            <option key={curr}>{curr}</option>
-          ))}
-        </select>
-      </label>
-      <label htmlFor="to" className="convertor__label">
-        Select a value to
-        <select
-          name="selectedTo"
-          value={selectedTo}
-          onChange={(e) => handleChange(e)}
-        >
-          {currencies.map((curr) => (
-            <option key={curr}>{curr}</option>
-          ))}
-        </select>
-      </label> */}
-      <button type="button" onClick={(e) => convertRes(e)}>Convert</button>
-      <p>{convert}</p>
-      {/* <p>{error}</p> */}
-    </section>
+    <>
+      <form className="convertor">
+        <h1 className="convertor__title">Currency Convertor</h1>
+        <div className="convertor__conteiner mb-3">
+          <label htmlFor="amount" className="form-label">
+            Enter Ammount
+          </label>
+          <input
+            className="convertor__input"
+            type="number"
+            name="amount"
+            id="amount"
+            value={amount}
+            onChange={(e) => handleChange(e)}
+          />
+        </div>
+        <div className="convertor__selectors">
+          <Search
+            arrayDataForSelect={currencies}
+            setCurrentValue={getSelectedCurr}
+            type="from"
+            currentValue={selectedFrom}
+            changeCurrentValue={setSelectedFrom}
+          />
+          <button
+            className="convertor__invert btn btn-primary w-25"
+            type="button"
+            onClick={invertCurrencies}
+          >
+            <i className="fas fa-exchange-alt"></i>
+          </button>
+          <Search
+            arrayDataForSelect={currencies}
+            setCurrentValue={getSelectedCurr}
+            type="to"
+            currentValue={selectedTo}
+            changeCurrentValue={setSelectedTo}
+          />
+        </div>
+        <h4 className="convertor__p">{`${amount} ${selectedFrom} = ${convertAmount} ${selectedTo}`}</h4>
+        <div className="mb-3">
+          <button
+            type="button"
+            onClick={(e) => convertRes(e)}
+            className="btn btn-primary w-100"
+          >
+            Convert
+          </button>
+        </div>
+      </form>
+    </>
   );
 };
 

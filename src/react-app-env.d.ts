@@ -1,12 +1,9 @@
 /// <reference types="react-scripts" />
 
-// interface State {
-//   currencies: string[];
-// }
-
-interface Action {
-  type: string,
-  payload: any,
+interface Currency {
+  currencyName: string,
+  currencySymbol: string,
+  id: string
 }
 
 interface Currencies {
@@ -28,4 +25,8 @@ interface Result {
   },
   result: number,
   success: boolean
+}
+
+interface Curr {
+  [k: string]: number
 }

@@ -1,6 +1,6 @@
-export const SET_CURRENCIES = 'SET_CURRENCIES';
+import { ActionsTypes, SetCurrenciesAction } from './types';
 
-export const setCurrenciesAction = (payload: string[]) => ({
-  type: SET_CURRENCIES,
+export const getCurrenciesActionCreator = (payload: Currency[]): SetCurrenciesAction => ({
+  type: ActionsTypes.SetCurrencies,
   payload,
 });

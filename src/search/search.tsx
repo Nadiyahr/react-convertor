@@ -1,71 +1,86 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import './search.scss';
 // import { useSelector } from 'react-redux';
 
 type Props = {
-  dataSelect: string[],
-  setCurr: (str: string, type: string) => void;
+  arrayDataForSelect: Currency[],
+  setCurrentValue: (str: string, type: string) => void;
   type: string,
-  defaultVal: string;
+  currentValue: string;
+  changeCurrentValue: (arg: string) => void;
 };
 
 export const Search: React.FC<Props> = (props) => {
   const {
-    dataSelect, setCurr, type, defaultVal,
+    arrayDataForSelect, setCurrentValue, type, currentValue, changeCurrentValue,
   } = props;
-  const [query, setQuery] = useState(defaultVal);
-  const [arrData, setArrData] = useState<string[] | null>(null);
-  const [select, setSelect] = useState(false);
+  const [arrData, setArrData] = useState<Currency[] | null>(null);
+  const [displaySelect, setDisplaySelect] = useState(false);
 
   const onFocus = () => {
-    setSelect(true);
-    setQuery('');
+    setDisplaySelect(true);
+    changeCurrentValue('');
   };
 
   const onCange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-    setSelect(true);
-    setArrData(dataSelect);
-
     const { value } = ev.target;
 
-    setQuery(value.toUpperCase());
-    console.log(dataSelect);
+    console.log(arrayDataForSelect);
 
-    const filtredArr = dataSelect.filter(data => data.toLowerCase().includes(value.toLowerCase()));
+    setDisplaySelect(true);
+    setArrData(arrayDataForSelect);
+    changeCurrentValue(value.toUpperCase());
+
+    console.log(arrayDataForSelect);
+
+    const filtredArr = arrayDataForSelect.filter(data => value === ''
+      ? data
+      : data.id.toLowerCase().includes(value.toLowerCase()));
 
     console.log(filtredArr);
     setArrData(filtredArr);
   };
 
+  // useEffect(() => {
+  //   console.log(arrayDataForSelect);
+  // }, []);
+
   return (
-    <>
-      <input
-        className="search"
-        type="text"
-        name="currencies"
-        id="curr"
-        value={query}
-        onChange={(e) => onCange(e)}
-        onFocus={onFocus}
-        maxLength={3}
-      />
-      {arrData && select && (
+    <div className="search w-25">
+      <label htmlFor="curr">
+        {type}
+        <input
+          type="text"
+          className="search__input w-100"
+          name="currencies"
+          id="curr"
+          value={currentValue}
+          onChange={(e) => onCange(e)}
+          onFocus={onFocus}
+          maxLength={3}
+        />
+        {displaySelect
+          ? (<FontAwesomeIcon icon="caret-down" />)
+          : (<FontAwesomeIcon icon="caret-down" />)}
+      </label>
+      {arrData && displaySelect && (
         <ul className="search__list list-group">
           {arrData.map(data => (
             <li
               className="search__item list-group-item list-group-item-action"
-              key={data}
+              key={data.id}
               onClick={() => {
-                setQuery(data);
-                setCurr(data, type);
-                setSelect(false);
+                changeCurrentValue(data.id);
+                setCurrentValue(data.id, type);
+                setDisplaySelect(false);
               }}
             >
-              {data}
+              {data.id}
             </li>
           ))}
         </ul>
       )}
-    </>
+    </div>
   );
 };
