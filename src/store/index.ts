@@ -8,7 +8,8 @@ const initialState: State = {
   toCurr: 'USD United States Dollar',
   arrDataFilter: [],
   exchangeRates: ['USD','EUR','PLN','CZK','GBP','UAH'],
-  base: 'UAH'
+  base: 'UAH',
+  renderOutput: true,
 };
 
 const reducer: Reducer<State, Actions> = (state = initialState, action): State => {
@@ -47,6 +48,12 @@ const reducer: Reducer<State, Actions> = (state = initialState, action): State =
       return {
         ...state,
         base: action.payload,
+      };
+
+    case ActionsTypes.SetRenderOutput:
+      return {
+        ...state,
+        renderOutput: action.payload,
       };
 
     default:

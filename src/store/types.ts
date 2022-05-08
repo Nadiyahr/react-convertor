@@ -8,6 +8,7 @@ export interface State {
   arrDataFilter: string[][],
   exchangeRates: string[],
   base: string,
+  renderOutput: boolean,
 }
 
 export interface Action<T, P> extends BaseAction<T> {
@@ -21,6 +22,7 @@ export enum ActionsTypes {
   SetArrDataFilter = 'SetFilter',
   SetExchangeRates = 'SetExchangeRates',
   SetBase = 'SetBase',
+  SetRenderOutput = 'SetRenderOutput',
 }
 
 export type SetCurrenciesAction = Action<ActionsTypes.SetCurrencies, string[][]>;
@@ -29,10 +31,12 @@ export type SetToAction = Action<ActionsTypes.SetTo, string>;
 export type SetArrDataFilterAction = Action<ActionsTypes.SetArrDataFilter, string[][]>;
 export type SetExchangeRatesAction = Action<ActionsTypes.SetExchangeRates, string[]>;
 export type SetBaseAction = Action<ActionsTypes.SetBase, string>;
+export type SetRenderOutputAction = Action<ActionsTypes.SetRenderOutput, boolean>;
 
 export type Actions = SetCurrenciesAction
   | SetFromAction
   | SetToAction
   | SetArrDataFilterAction
   | SetExchangeRatesAction
-  | SetBaseAction;
+  | SetBaseAction
+  | SetRenderOutputAction;

@@ -6,4 +6,5 @@ export const getToSelector = (state: State): string => state.toCurr;
 export const getArrDataFilter = (state: State): string[][] => state.arrDataFilter;
 export const grtExchangeRates = (state: State): string[] => state.exchangeRates;
 export const getBase = (state: State): string => state.base;
+export const getRenderOutput = (state: State): boolean => state.renderOutput;
 

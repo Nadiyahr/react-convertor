@@ -18,7 +18,7 @@ export const getExchangeRates = (amount: string, from: string, to: string) => {
 
 export const getExchangeratesData = exch;
 // (base = 'UAH') => {
-//   return fetch(`${BASE_URL}/latest?base=${base}`, requestOptions)
+//   return fetch(`${BASE_URL}/latest?base=${base.slice(0,35)}`, requestOptions)
 //     .then(res => res.text())
 //     .then(result => JSON.parse(result));
 // };

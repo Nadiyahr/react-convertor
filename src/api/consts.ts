@@ -12,6 +12,10 @@ export const requestOptions = {
   headers: myHeaders,
 };
 
+const obj ={'aaa': 'eeee'};
+
+obj['aaa'];
+
 export const arr = [['AED', 'United Arab Emirates Dirham'],
 ['AFN', 'Afghan Afghani'],
 ['ALL', 'Albanian Lek'],

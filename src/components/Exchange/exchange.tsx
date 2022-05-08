@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getJsonApiArray } from '../../api';
-import { setCurrenciesActionCreator, setFromActionCreator, setToActionCreator } from '../../store/actions';
-import { getCurrenciesSelector, getFromSlector, getToSelector } from '../../store/selectors';
+import { setCurrenciesActionCreator, setFromActionCreator, SetRenderOutputActionCreator, setToActionCreator } from '../../store/actions';
+import { getCurrenciesSelector, getFromSlector, getRenderOutput, getToSelector } from '../../store/selectors';
 import { Search } from '../search';
 import './exchange.scss';
 
@@ -12,6 +12,7 @@ export const Exchange = () => {
   const currencies = useSelector(getCurrenciesSelector);
   const selectedFrom = useSelector(getFromSlector);
   const selectedTo = useSelector(getToSelector);
+  const renderResult = useSelector(getRenderOutput);
   const [amount, setAmount] = useState('');
   const [convertAmount, setConvertAmount] = useState(0);
   const [displayExchange, setDisplayExchange] = useState(false);
@@ -20,8 +21,6 @@ export const Exchange = () => {
     const { value, name } = event.target;
 
     setDisplayExchange(false);
-
-    // console.log(name, value); // eslint-disable-line no-console
 
     switch (name) {
       case 'selectedFrom':
@@ -54,10 +53,8 @@ export const Exchange = () => {
   const convertRes = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     setDisplayExchange(true);
+    dispatch(SetRenderOutputActionCreator(true));
     if (isNaN(+amount)) {
-      console.log('amount', amount.replace(/\D/g, ''));
-      console.log('selectedFrom', amount.replace(/\d/g, '').trim().slice(0,3).toUpperCase());
-      console.log('selectedTo', amount.replace(/\d/g, '').trim().slice(-3).toUpperCase());
       const newFrom = amount.replace(/\d/g, '').trim().slice(0,3).toUpperCase();
       const newTo = amount.replace(/\d/g, '').trim().slice(-3).toUpperCase();
       setAmount(amount.replace(/\D/g, ''));
@@ -75,6 +72,7 @@ export const Exchange = () => {
   useEffect(() => {
     // getJsonApiArray()
     //   .then((curr) => dispatch(setCurrenciesActionCreator(curr)));
+    dispatch(SetRenderOutputActionCreator(false));
     dispatch(setCurrenciesActionCreator(getJsonApiArray));
   }, []);
 
@@ -118,7 +116,7 @@ export const Exchange = () => {
           Convert
         </button>
       </div>
-      <h4 className="convertor__p">{displayExchange && `${amount} ${selectedFrom.slice(0,3)} = ${convertAmount} ${selectedTo.slice(0,3)}`}</h4>
+      <h4 className="convertor__p">{renderResult && `${amount} ${selectedFrom.slice(0,3)} = ${convertAmount} ${selectedTo.slice(0,3)}`}</h4>
     </form>
   );
 };

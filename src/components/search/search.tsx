@@ -2,8 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import './search.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFromSlector, getCurrenciesSelector, getToSelector, getArrDataFilter } from '../../store/selectors';
-import { setArrDataFilterActionCreator, setFromActionCreator, setToActionCreator } from '../../store/actions';
+import { getFromSlector, getCurrenciesSelector, getToSelector, getArrDataFilter, getBase } from '../../store/selectors';
+import { setArrDataFilterActionCreator, SetBaseActionCreator, setCurrenciesActionCreator, setFromActionCreator, SetRenderOutputActionCreator, setToActionCreator } from '../../store/actions';
+import { getJsonApiArray } from '../../api';
 
 type Props = {
   type: string,
@@ -11,52 +12,82 @@ type Props = {
 
 export const Search: React.FC<Props> = (props) => {
   const dispatch = useDispatch();
-  const {type} = props;
+  const { type } = props;
   const arrData = useSelector(getCurrenciesSelector);
-  let fromValue = useSelector(getFromSlector);
-  let toValue = useSelector(getToSelector);
-  let arrDataFilter = useSelector(getArrDataFilter);
+  const fromValue = useSelector(getFromSlector);
+  const toValue = useSelector(getToSelector);
+  const baseValue = useSelector(getBase);
+  const arrDataFilter = useSelector(getArrDataFilter);
+  const [internFrom, setInternFrom] = useState(fromValue);
+  const [internTo, setInternTo] = useState(toValue);
+  const [internBase, setInternBase] = useState(baseValue);
   const [displaySelect, setDisplaySelect] = useState(false);
 
   const setValue = (typeProps: string) => {
+
     switch (typeProps){
       case 'from':
-        return fromValue;
+        return internFrom;
 
       case 'to':
-        return toValue;
+        return internTo;
+
+      case 'base':
+        return internBase.slice(0,3);
 
       default:
         break;
     }
-     
-    // if (typeProps === 'from') {
-    //   return fromValue;
-    // }
-
-    // return toValue;
   };
 
   const onFocus = () => {
     setDisplaySelect(true);
-    if (type === 'from') {
-      dispatch(setFromActionCreator(''));
-      return fromValue;
+    dispatch(SetRenderOutputActionCreator(false));
+
+    switch (type) {
+      case 'from':
+        // dispatch(setFromActionCreator(''));
+        setInternFrom('');
+        return internFrom;
+
+      case 'to':
+        // dispatch(setToActionCreator(''));
+        setInternTo('');
+        return internTo;
+
+      case 'base':
+        // dispatch(SetBaseActionCreator(''));
+        setInternBase('');
+        return internBase;
+
+      default:
+        break;
     }
-
-    dispatch(setToActionCreator(''));
-
-    return toValue;
   };
 
   const onCange = (ev: React.ChangeEvent<HTMLInputElement>, typeS: string) => {
     const { value } = ev.target;
 
     setDisplaySelect(true);
-    if (typeS === 'from') {
-      dispatch(setFromActionCreator(value.toUpperCase()));
-    } else {
-      dispatch(setToActionCreator(value.toUpperCase()));
+
+    switch (typeS) {
+      case 'from':
+        // dispatch(setFromActionCreator(value.toUpperCase()));
+        setInternFrom(value.toUpperCase());
+        break;
+
+      case 'to':
+        // dispatch(setToActionCreator(value.toUpperCase()));
+        setInternTo(value.toUpperCase());
+        break;
+
+      case 'base':
+        // dispatch(SetBaseActionCreator(value.toUpperCase()));
+        setInternBase(value.toUpperCase());
+        break;
+
+      default:
+        break;
     }
 
     const filtredArr = arrData.filter((data: string[]) => value === ''
@@ -69,19 +100,30 @@ export const Search: React.FC<Props> = (props) => {
   };
 
   const onClickLi = (str: string, type: string) => {
-    if (type === 'from') {
-      dispatch(setFromActionCreator(str));
-      return fromValue;
+    switch (type) {
+      case 'from':
+        dispatch(setFromActionCreator(str));
+        setInternFrom(str);
+        return fromValue;
+
+      case 'to':
+        dispatch(setToActionCreator(str));
+        setInternTo(str);
+        return toValue;
+
+      case 'base':
+        dispatch(SetBaseActionCreator(str.slice(0,3)));
+        setInternBase(baseValue);
+        return baseValue;
+
+        default:
+          break;
     }
-
-    dispatch(setToActionCreator(str));
-
-    return toValue;
   };
 
-  // useEffect(() => {
-  //   dispatch(SetArrDataFilterActionCreator(arrData));
-  // }, []);
+  useEffect(() => {
+    dispatch(setCurrenciesActionCreator(getJsonApiArray));
+  }, []);
 
   return (
     <div className="search">
@@ -109,7 +151,7 @@ export const Search: React.FC<Props> = (props) => {
                 setDisplaySelect(false);
               }}
             >
-                {data.join(' ')}
+              {data.join(' ')}
             </li>
           ))}
         </ul>
