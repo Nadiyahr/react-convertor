@@ -1,0 +1,33 @@
+.convertor {
+  background-color: #d3d3d4;
+  padding: 20px;
+
+  &__conteiner {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__input {
+    max-width: 100%;
+    outline: none;
+  }
+
+  &__selectors {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  &__invert {
+    margin-bottom: 20px;
+    margin-left: 240px;
+    // height: 33px;
+    position: absolute;
+    top: 70px;
+    right: 0;
+  }
+
+  &__inner {
+    height: 28px;
+  }
+}

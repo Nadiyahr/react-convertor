@@ -7,4 +7,5 @@ export const getArrDataFilter = (state: State): string[][] => state.arrDataFilte
 export const grtExchangeRates = (state: State): string[] => state.exchangeRates;
 export const getBase = (state: State): string => state.base;
 export const getRenderOutput = (state: State): boolean => state.renderOutput;
+export const getInvert = (state: State): boolean => state.invert;
 

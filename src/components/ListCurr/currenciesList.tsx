@@ -28,11 +28,11 @@ export const CurrenciesList: FC = () => {
 
   return (
     <div className="List">
-      <h1>List Of Exchange Rates</h1>
+      <h3>List Of Exchange Rates</h3>
       <Search type="base" />
-      <ul>
+      <ul className="list-group list-group-flush">
         {combineArr.map((item: string[]) => (
-          <li key={item[0]}>
+          <li className="List__item list-group-item list-group-item-dark" key={item[0]}>
             {`1 ${baseValue.slice(0.3)} = ${Number(item[1]).toFixed(2)} ${item[0]}`}
           </li>
         ))}

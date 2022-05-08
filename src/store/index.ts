@@ -10,6 +10,7 @@ const initialState: State = {
   exchangeRates: ['USD','EUR','PLN','CZK','GBP','UAH'],
   base: 'UAH',
   renderOutput: true,
+  invert: false,
 };
 
 const reducer: Reducer<State, Actions> = (state = initialState, action): State => {
@@ -51,6 +52,12 @@ const reducer: Reducer<State, Actions> = (state = initialState, action): State =
       };
 
     case ActionsTypes.SetRenderOutput:
+      return {
+        ...state,
+        renderOutput: action.payload,
+      };
+
+    case ActionsTypes.SetInvert:
       return {
         ...state,
         renderOutput: action.payload,

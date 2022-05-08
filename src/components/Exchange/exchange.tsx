@@ -2,9 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getJsonApiArray } from '../../api';
-import { setCurrenciesActionCreator, setFromActionCreator, SetRenderOutputActionCreator, setToActionCreator } from '../../store/actions';
-import { getCurrenciesSelector, getFromSlector, getRenderOutput, getToSelector } from '../../store/selectors';
+import { SetInvertActionCreator, setCurrenciesActionCreator, setFromActionCreator, SetRenderOutputActionCreator, setToActionCreator } from '../../store/actions';
+import { getCurrenciesSelector, getFromSlector, getInvert, getRenderOutput, getToSelector } from '../../store/selectors';
 import { Search } from '../search';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRotate } from '@fortawesome/free-solid-svg-icons';
 import './exchange.scss';
 
 export const Exchange = () => {
@@ -13,14 +15,12 @@ export const Exchange = () => {
   const selectedFrom = useSelector(getFromSlector);
   const selectedTo = useSelector(getToSelector);
   const renderResult = useSelector(getRenderOutput);
+  const invert = useSelector(getInvert);
   const [amount, setAmount] = useState('');
   const [convertAmount, setConvertAmount] = useState(0);
-  const [displayExchange, setDisplayExchange] = useState(false);
   
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const { value, name } = event.target;
-
-    setDisplayExchange(false);
 
     switch (name) {
       case 'selectedFrom':
@@ -41,18 +41,12 @@ export const Exchange = () => {
   };
 
   const invertCurrencies = () => {
-    const from = selectedFrom;
-    const oldAmount = amount;
-
-    dispatch(setFromActionCreator(selectedTo));
-    dispatch(setToActionCreator(from));
-    setAmount(convertAmount.toString());
-    setConvertAmount(+oldAmount);
+    dispatch(SetInvertActionCreator(true));
+    console.log(invert);
   };
 
   const convertRes = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    setDisplayExchange(true);
     dispatch(SetRenderOutputActionCreator(true));
     if (isNaN(+amount)) {
       const newFrom = amount.replace(/\d/g, '').trim().slice(0,3).toUpperCase();
@@ -78,12 +72,13 @@ export const Exchange = () => {
 
   return (
     <form className="convertor">
-      <h1 className="convertor__title">Currency Convertor</h1>
+      <h3 className="convertor__title">Currency Convertor</h3>
       <div className="convertor__conteiner mb-3">
         <label htmlFor="amount" className="form-label">
           Enter Ammount
         </label>
         <input
+          placeholder="Example: 100 uah in usd or 100"
           className="convertor__input"
           type="text"
           name="amount"
@@ -97,11 +92,11 @@ export const Exchange = () => {
           type="from"
         />
         <button
-          className="convertor__invert btn btn-primary w-25"
+          className="convertor__invert btn btn-primary"
           type="button"
           onClick={invertCurrencies}
         >
-          <i className="fa-solid fa-arrow-right-arrow-left"></i>
+          <FontAwesomeIcon icon={faRotate} />
         </button>
         <Search
           type="to"
@@ -116,7 +111,16 @@ export const Exchange = () => {
           Convert
         </button>
       </div>
-      <h4 className="convertor__p">{renderResult && `${amount} ${selectedFrom.slice(0,3)} = ${convertAmount} ${selectedTo.slice(0,3)}`}</h4>
+      <div className="convertor__inner">
+        <h4>
+          {renderResult
+          && `${amount} ${selectedFrom.slice(0,3)} = ${convertAmount} ${selectedTo.slice(0,3)}`}
+        </h4>
+      </div>
     </form>
   );
 };
+function setInvert(arg0: boolean): any {
+  throw new Error('Function not implemented.');
+}
+

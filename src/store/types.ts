@@ -9,6 +9,7 @@ export interface State {
   exchangeRates: string[],
   base: string,
   renderOutput: boolean,
+  invert: boolean,
 }
 
 export interface Action<T, P> extends BaseAction<T> {
@@ -23,6 +24,7 @@ export enum ActionsTypes {
   SetExchangeRates = 'SetExchangeRates',
   SetBase = 'SetBase',
   SetRenderOutput = 'SetRenderOutput',
+  SetInvert = 'SetInvert',
 }
 
 export type SetCurrenciesAction = Action<ActionsTypes.SetCurrencies, string[][]>;
@@ -32,6 +34,8 @@ export type SetArrDataFilterAction = Action<ActionsTypes.SetArrDataFilter, strin
 export type SetExchangeRatesAction = Action<ActionsTypes.SetExchangeRates, string[]>;
 export type SetBaseAction = Action<ActionsTypes.SetBase, string>;
 export type SetRenderOutputAction = Action<ActionsTypes.SetRenderOutput, boolean>;
+export type SetInvertAction = Action<ActionsTypes.SetInvert, boolean>;
+
 
 export type Actions = SetCurrenciesAction
   | SetFromAction
@@ -39,4 +43,5 @@ export type Actions = SetCurrenciesAction
   | SetArrDataFilterAction
   | SetExchangeRatesAction
   | SetBaseAction
-  | SetRenderOutputAction;
+  | SetRenderOutputAction
+  | SetInvertAction;

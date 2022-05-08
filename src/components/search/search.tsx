@@ -2,9 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import './search.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFromSlector, getCurrenciesSelector, getToSelector, getArrDataFilter, getBase } from '../../store/selectors';
-import { setArrDataFilterActionCreator, SetBaseActionCreator, setCurrenciesActionCreator, setFromActionCreator, SetRenderOutputActionCreator, setToActionCreator } from '../../store/actions';
+import { getFromSlector, getCurrenciesSelector, getToSelector, getArrDataFilter, getBase, getInvert } from '../../store/selectors';
+import { setArrDataFilterActionCreator, SetBaseActionCreator, setCurrenciesActionCreator, setFromActionCreator, SetInvertActionCreator, SetRenderOutputActionCreator, setToActionCreator } from '../../store/actions';
 import { getJsonApiArray } from '../../api';
+import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 type Props = {
   type: string,
@@ -18,10 +20,20 @@ export const Search: React.FC<Props> = (props) => {
   const toValue = useSelector(getToSelector);
   const baseValue = useSelector(getBase);
   const arrDataFilter = useSelector(getArrDataFilter);
+  const invrert = useSelector(getInvert);
   const [internFrom, setInternFrom] = useState(fromValue);
   const [internTo, setInternTo] = useState(toValue);
   const [internBase, setInternBase] = useState(baseValue);
   const [displaySelect, setDisplaySelect] = useState(false);
+
+  if (invrert) {
+    console.log(invrert);
+    const from = internFrom;
+
+    setInternFrom(internTo);
+    setInternTo(from);
+    dispatch(SetInvertActionCreator(false));
+  }
 
   const setValue = (typeProps: string) => {
 
@@ -38,6 +50,10 @@ export const Search: React.FC<Props> = (props) => {
       default:
         break;
     }
+  };
+
+  const clickDown = () => {
+    setDisplaySelect(prev => !prev);
   };
 
   const onFocus = () => {
@@ -117,16 +133,17 @@ export const Search: React.FC<Props> = (props) => {
 
   useEffect(() => {
     if (arrData.length === 0) {
-      dispatch(setCurrenciesActionCreator(getJsonApiArray));
+      dispatch(setArrDataFilterActionCreator(getJsonApiArray));
     }
   }, []);
 
   return (
     <div className="search">
-      <label htmlFor="curr">
+      <label htmlFor="curr" style={{textTransform: 'capitalize'}}>
         {type}
         <input
           type="text"
+          placeholder="Start typting for filter"
           className="search__input"
           name="currencies"
           id="curr"
@@ -135,8 +152,13 @@ export const Search: React.FC<Props> = (props) => {
           onFocus={onFocus}
           maxLength={3}
         />
+        <div className="search__icon" onClick={clickDown}>
+        {displaySelect
+        ? <FontAwesomeIcon icon={faCaretUp} />
+        : <FontAwesomeIcon icon={faCaretDown} />}
+        </div>
       </label>
-      {arrDataFilter && displaySelect && (
+      {displaySelect && (
         <ul className="search__list list-group">
           {arrDataFilter.map((data: string[]) => (
             <li

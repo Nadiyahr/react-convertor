@@ -8,28 +8,28 @@ import { CurrenciesList } from './components/ListCurr';
 const App: React.FC = () => {
 
   return (
-    <>
-    <nav>
-      <Link
-        to="/"
-        className="btn btn-pink"
-        role="button"
-      >
-        Home
-      </Link>
-      <Link
-        to="/list"
-        className="btn btn-pink"
-        role="button"
-      >
-        List Exchange Rates
-      </Link>
-    </nav>
-    <Routes>
-      <Route path="/" element={<Exchange/>} />
-      <Route path="/list" element={<CurrenciesList/>} />
-    </Routes>
-    </>
+    <div className="app">
+      <nav className="app__nav">
+        <Link
+          to="/"
+          className="app__btn btn btn-pink"
+          role="button"
+        >
+          Home
+        </Link>
+        <Link
+          to="/list"
+          className="app__btn btn btn-pink"
+          role="button"
+        >
+          List Exchange Rates
+        </Link>
+      </nav>
+      <Routes>
+        <Route path="/" element={<Exchange/>} />
+        <Route path="/list" element={<CurrenciesList/>} />
+      </Routes>
+    </div>
   );
 };
 

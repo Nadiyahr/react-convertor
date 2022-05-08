@@ -6,6 +6,7 @@
 
   &__input {
     width: 240px;
+    outline: none;
   }
 
   &__list {
@@ -24,6 +25,13 @@
     height: 30px;
     font-size: small;
     line-height: 10px;
+    
+  }
+
+  &__icon {
+    position: absolute;
+    top: 28%;
+    right: -16%;
   }
 }
 
@@ -36,5 +44,5 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgb(110, 108, 105);
+  background-color: hsl(40, 3%, 38%);
 }
