@@ -113,7 +113,7 @@ export const Search: React.FC<Props> = (props) => {
 
       case 'base':
         dispatch(SetBaseActionCreator(str.slice(0,3)));
-        setInternBase(baseValue);
+        setInternBase(str.slice(0,3));
         return baseValue;
 
         default:
