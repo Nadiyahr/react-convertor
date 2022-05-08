@@ -46,17 +46,14 @@ export const Search: React.FC<Props> = (props) => {
 
     switch (type) {
       case 'from':
-        // dispatch(setFromActionCreator(''));
         setInternFrom('');
         return internFrom;
 
       case 'to':
-        // dispatch(setToActionCreator(''));
         setInternTo('');
         return internTo;
 
       case 'base':
-        // dispatch(SetBaseActionCreator(''));
         setInternBase('');
         return internBase;
 
@@ -72,17 +69,14 @@ export const Search: React.FC<Props> = (props) => {
 
     switch (typeS) {
       case 'from':
-        // dispatch(setFromActionCreator(value.toUpperCase()));
         setInternFrom(value.toUpperCase());
         break;
 
       case 'to':
-        // dispatch(setToActionCreator(value.toUpperCase()));
         setInternTo(value.toUpperCase());
         break;
 
       case 'base':
-        // dispatch(SetBaseActionCreator(value.toUpperCase()));
         setInternBase(value.toUpperCase());
         break;
 
@@ -122,7 +116,9 @@ export const Search: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    dispatch(setCurrenciesActionCreator(getJsonApiArray));
+    if (arrData.length === 0) {
+      dispatch(setCurrenciesActionCreator(getJsonApiArray));
+    }
   }, []);
 
   return (

@@ -26,8 +26,8 @@ const App: React.FC = () => {
       </Link>
     </nav>
     <Routes>
-      <Route path="/list" element={<CurrenciesList/>} />
       <Route path="/" element={<Exchange/>} />
+      <Route path="/list" element={<CurrenciesList/>} />
     </Routes>
     </>
   );

@@ -11,7 +11,7 @@ import { exch } from '../../api/consts';
 
 export const CurrenciesList: FC = () => {
   const dispatch = useDispatch();
-  const currencies = useSelector(getCurrenciesSelector);
+  // const currencies = useSelector(getCurrenciesSelector);
   const exchangeArr = useSelector(grtExchangeRates);
   const baseValue = useSelector(getBase);
   // const isRenderOk = useSelector(getRenderOutput);
