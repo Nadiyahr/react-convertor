@@ -1,11 +1,14 @@
 import { createStore, Reducer } from 'redux';
 import { composeWithDevTools } from '@redux-devtools/extension';
 import { State, Actions, ActionsTypes } from './types';
-// import { arrOfCurrencies } from '../api';
-// import { SET_CURRENCIES } from './actions';
 
 const initialState: State = {
   currencies: [],
+  fromCurr: 'UAH Ukrainian Hryvnia',
+  toCurr: 'USD United States Dollar',
+  arrDataFilter: [],
+  exchangeRates: ['USD','EUR','PLN','CZK','GBP','UAH'],
+  base: 'UAH'
 };
 
 const reducer: Reducer<State, Actions> = (state = initialState, action): State => {
@@ -14,6 +17,36 @@ const reducer: Reducer<State, Actions> = (state = initialState, action): State =
       return {
         ...state,
         currencies: [...state.currencies, ...action.payload],
+      };
+
+    case ActionsTypes.SetFrom:
+      return {
+        ...state,
+        fromCurr: action.payload,
+      };
+
+    case ActionsTypes.SetTo:
+      return {
+        ...state,
+        toCurr: action.payload,
+      };
+
+    case ActionsTypes.SetArrDataFilter:
+      return {
+        ...state,
+        arrDataFilter: action.payload,
+      };
+
+    case ActionsTypes.SetExchangeRates:
+      return {
+        ...state,
+        exchangeRates: [...state.exchangeRates, ...action.payload],
+      };
+
+    case ActionsTypes.SetBase:
+      return {
+        ...state,
+        base: action.payload,
       };
 
     default:

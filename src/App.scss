@@ -13,13 +13,16 @@
 
   &__selectors {
     display: flex;
-    justify-content: space-between;
-    align-items: baseline;
+    flex-direction: column;
+    position: relative;
   }
 
   &__invert {
-    margin: 0 30px 0 20px;
+    margin-bottom: 20px;
+    margin-left: 240px;
     height: 33px;
-    line-height: 18px;
+    position: absolute;
+    top: 70px;
+    right: 0;
   }
 }
