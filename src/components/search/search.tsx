@@ -17,7 +17,7 @@ import {
   SetRenderOutputActionCreator,
   setToActionCreator,
 } from '../../store/actions';
-import { getJsonApiArray } from '../../api';
+// import { getJsonApiArray } from '../../api';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -55,15 +55,12 @@ export const Search: React.FC<Props> = (props) => {
     }
   };
 
-  const clickDown = () => {
-    setDisplaySelect(prev => !prev);
-  };
-
-  const onFocus = () => {
+  const onFocus = (selectType: string) => {
     setDisplaySelect(true);
     dispatch(SetRenderOutputActionCreator(false));
+    dispatch(setArrDataFilterActionCreator(arrData));
 
-    switch (type) {
+    switch (selectType) {
       case 'from':
         setInternFrom('');
         return internFrom;
@@ -107,9 +104,7 @@ export const Search: React.FC<Props> = (props) => {
       ? data
       : data[0].toLowerCase().includes(value.toLowerCase()));
 
-    console.log(filtredArr);
     dispatch(setArrDataFilterActionCreator(filtredArr));
-    console.log(arrDataFilter);
   };
 
   const onClickLi = (str: string, type: string) => {
@@ -138,16 +133,11 @@ export const Search: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    if (arrData.length === 0) {
-      getJsonApiArray().then((data) => dispatch(setArrDataFilterActionCreator(data)));
-    }
-
     if (invert) {
       setInternFrom(fromValue);
       setInternTo(toValue);
       dispatch(SetReverseActionCreator(false));
-    }
-  
+    }  
   }, [invert]);
 
   return (
@@ -162,10 +152,10 @@ export const Search: React.FC<Props> = (props) => {
           id="curr"
           value={setValue(type)}
           onChange={(e) => onCange(e, type)}
-          onFocus={onFocus}
+          onFocus={() => onFocus(type)}
           maxLength={3}
         />
-        <div className="search__icon" onClick={clickDown}>
+        <div className="search__icon">
         {displaySelect
         ? <FontAwesomeIcon icon={faCaretUp} />
         : <FontAwesomeIcon icon={faCaretDown} />}
@@ -176,9 +166,9 @@ export const Search: React.FC<Props> = (props) => {
           {arrDataFilter.map((data: string[]) => (
             <li
               className="search__item list-group-item list-group-item-action"
-              key={data[0]}
+              key={`${data[0]}${type}`}
               onClick={() => {
-                onClickLi(data[0], type);
+                onClickLi(data.join(' '), type);
                 setDisplaySelect(false);
               }}
             >

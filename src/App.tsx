@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Routes, Route, Link } from 'react-router-dom';
-import './App.scss';
-import { Exchange } from './components/Exchange';
+import { getJsonApiArray } from './api';
+import { Exchange } from './components/Calculator';
 import { CurrenciesList } from './components/ListCurr';
+import { setCurrenciesActionCreator } from './store/actions';
+import './App.scss';
 
 const App: React.FC = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getJsonApiArray()
+        .then((curr) => dispatch(setCurrenciesActionCreator(curr)));
+
+  },[]);
 
   return (
     <div className="app">

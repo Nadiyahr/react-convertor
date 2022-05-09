@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getExchangeRates, getJsonApiArray } from '../../api';
+import { getExchangeRates } from '../../api';
 import {
   SetReverseActionCreator,
-  setCurrenciesActionCreator,
   setFromActionCreator,
   SetRenderOutputActionCreator,
   setToActionCreator,
@@ -14,10 +13,10 @@ import {
   getRenderOutput,
   getToSelector,
 } from '../../store/selectors';
-import { Search } from '../search';
+import { Search } from '../Search';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRotate } from '@fortawesome/free-solid-svg-icons';
-import './exchange.scss';
+import './calculator.scss';
 
 export const Exchange = () => {
   const dispatch = useDispatch();
@@ -57,28 +56,37 @@ export const Exchange = () => {
     dispatch(SetReverseActionCreator(true));
   };
 
+  const validator = (enterValue: string) => {
+    if (!isNaN(+enterValue)) {
+      return true;
+    }
+
+    const RegExp = /^\d+ [A-Z,a-z]{3} in [A-Z,a-z]{3}/g;
+
+    return RegExp.test(enterValue);
+  };
+
   const convertRes = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
+    if (validator(amount)) {
+      if (isNaN(+amount)) {
+        const newFrom = amount.replace(/\d/g, '').trim().slice(0,3).toUpperCase();
+        const newTo = amount.replace(/\d/g, '').trim().slice(-3).toUpperCase();
+        dispatch(setFromActionCreator(currencies.find(x => x[0] === newFrom)!.join(' ')));
+        dispatch(setToActionCreator(currencies.find(x => x[0] === newTo)!.join(' ')));
+      }
 
-    if (isNaN(+amount)) {
-      const newFrom = amount.replace(/\d/g, '').trim().slice(0,3).toUpperCase();
-      const newTo = amount.replace(/\d/g, '').trim().slice(-3).toUpperCase();
-      dispatch(setFromActionCreator(currencies.find(x => x[0] === newFrom)!.join(' ')));
-      dispatch(setToActionCreator(currencies.find(x => x[0] === newTo)!.join(' ')));
+      const getExchange: Result = await getExchangeRates(amount.replace(/\D/g, ''), selectedFrom.slice(0,3), selectedTo.slice(0,3));
+      const result = getExchange.result.toFixed(2);
+
+      dispatch(SetRenderOutputActionCreator(true));
+
+      return setConvertAmount(+result);
     }
-    const getExchange: Result = await getExchangeRates(amount.replace(/\D/g, ''), selectedFrom.slice(0,3), selectedTo.slice(0,3));
-    const result = getExchange.result.toFixed(2);
-
-    dispatch(SetRenderOutputActionCreator(true));
-
-    return setConvertAmount(+result);
   };
 
   useEffect(() => {
-    if (currencies.length === 0) {
-      getJsonApiArray()
-        .then((curr) => dispatch(setCurrenciesActionCreator(curr)));
-    }
+
     dispatch(SetRenderOutputActionCreator(false));
   }, []);
 
