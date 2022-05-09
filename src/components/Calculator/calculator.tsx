@@ -13,7 +13,7 @@ import {
   getRenderOutput,
   getToSelector,
 } from '../../store/selectors';
-import { Search } from '../Selectors';
+import { Search } from '../Selects';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRotate } from '@fortawesome/free-solid-svg-icons';
 import './calculator.scss';

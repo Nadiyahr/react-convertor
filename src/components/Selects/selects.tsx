@@ -18,7 +18,7 @@ import {
 } from '../../store/actions';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import './selectors.scss';
+import './selects.scss';
 
 type Props = {
   type: string,
