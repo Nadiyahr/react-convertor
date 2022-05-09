@@ -2,7 +2,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { getBase, grtExchangeRates } from '../../store/selectors';
-import { Search } from '../Search';
+import { Search } from '../Selectors';
 import { getExchangeratesData } from '../../api';
 import './currenciesList.scss';
 

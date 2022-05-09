@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import './search.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getFromSlector,
@@ -17,9 +16,9 @@ import {
   SetRenderOutputActionCreator,
   setToActionCreator,
 } from '../../store/actions';
-// import { getJsonApiArray } from '../../api';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import './selectors.scss';
 
 type Props = {
   type: string,
@@ -172,7 +171,7 @@ export const Search: React.FC<Props> = (props) => {
                 setDisplaySelect(false);
               }}
             >
-              {`${data}`}
+              {`${data.join(' ')}`}
             </li>
           ))}
         </ul>

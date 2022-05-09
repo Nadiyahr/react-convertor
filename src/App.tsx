@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Routes, Route, Link } from 'react-router-dom';
 import { getJsonApiArray } from './api';
 import { Exchange } from './components/Calculator';
-import { CurrenciesList } from './components/ListCurr';
+import { CurrenciesList } from './components/CurrenciesList';
 import { setCurrenciesActionCreator } from './store/actions';
 import './App.scss';
 
