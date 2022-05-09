@@ -16,7 +16,7 @@
 
 ## Description
 
-- This app is fetched using base api from [https://apilayer.com/] free plan.
+- This app is fetched using base api from [APILayer Exchange Rates Data API](https://apilayer.com/marketplace/description/exchangerates_data-api) free plan.
 - Consists of two pages - Calculator and List Exchange Rates.
 - To get started, you can type '100 usd in uah' in the Calculator input, click 'Convert' and see the result in real time.
 - Or type only the desired amount in the input and choose the currencies to convert, from the dedicated selects.
