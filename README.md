@@ -1,14 +1,14 @@
 # Convertor Curencies Test Task
 
-[Demo](https://nadiyahr.github.io/convertor/) - available to deploy your application to gh-pages
+[Demo](https://nadiyahr.github.io/convertor/) - available on gh-pages
 
-[Task](https://docs.google.com/document/d/1e8OCo1ou1gaHB1FhaLVWUj3hz62pfpQVS1ZQd1N8g-c/edit?usp=sharing)
+[Task](https://docs.google.com/document/d/1e8OCo1ou1gaHB1FhaLVWUj3hz62pfpQVS1ZQd1N8g-c/edit?usp=sharing) - the description of the task
 
 ## Techstack
 
 * React.js v17
 * Redux v4
-* React-router-dom v6
+* React Router v6
 * Typescript
 * SCSS preprocesor
 * Bootstrap
@@ -16,7 +16,7 @@
 
 ## Description
 
-- This app is fetched using base api from `https://apilayer.com/` free plan
+- This app is fetched using base api from [https://apilayer.com/] free plan.
 - Consists of two pages - Calculator and List Exchange Rates.
 - To get started, you can type '100 usd in uah' in the Calculator input, click 'Convert' and see the result in real time.
 - Or type only the desired amount in the input and choose the currencies to convert, from the dedicated selects.
