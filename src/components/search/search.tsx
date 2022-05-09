@@ -1,9 +1,22 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import './search.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFromSlector, getCurrenciesSelector, getToSelector, getArrDataFilter, getBase, getInvert } from '../../store/selectors';
-import { setArrDataFilterActionCreator, SetBaseActionCreator, setCurrenciesActionCreator, setFromActionCreator, SetInvertActionCreator, SetRenderOutputActionCreator, setToActionCreator } from '../../store/actions';
+import {
+  getFromSlector,
+  getCurrenciesSelector,
+  getToSelector,
+  getArrDataFilter,
+  getBase,
+  getReverse,
+} from '../../store/selectors';
+import {
+  setArrDataFilterActionCreator,
+  SetBaseActionCreator,
+  setFromActionCreator,
+  SetReverseActionCreator,
+  SetRenderOutputActionCreator,
+  setToActionCreator,
+} from '../../store/actions';
 import { getJsonApiArray } from '../../api';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -20,23 +33,13 @@ export const Search: React.FC<Props> = (props) => {
   const toValue = useSelector(getToSelector);
   const baseValue = useSelector(getBase);
   const arrDataFilter = useSelector(getArrDataFilter);
-  const invrert = useSelector(getInvert);
+  const invert = useSelector(getReverse);
   const [internFrom, setInternFrom] = useState(fromValue);
   const [internTo, setInternTo] = useState(toValue);
   const [internBase, setInternBase] = useState(baseValue);
   const [displaySelect, setDisplaySelect] = useState(false);
 
-  if (invrert) {
-    console.log(invrert);
-    const from = internFrom;
-
-    setInternFrom(internTo);
-    setInternTo(from);
-    dispatch(SetInvertActionCreator(false));
-  }
-
   const setValue = (typeProps: string) => {
-
     switch (typeProps){
       case 'from':
         return internFrom;
@@ -100,7 +103,7 @@ export const Search: React.FC<Props> = (props) => {
         break;
     }
 
-    const filtredArr = arrData.filter((data: string[]) => value === ''
+    const filtredArr = arrData.filter((data) => value === ''
       ? data
       : data[0].toLowerCase().includes(value.toLowerCase()));
 
@@ -114,16 +117,19 @@ export const Search: React.FC<Props> = (props) => {
       case 'from':
         dispatch(setFromActionCreator(str));
         setInternFrom(str);
+        dispatch(setArrDataFilterActionCreator(arrData));
         return fromValue;
 
       case 'to':
         dispatch(setToActionCreator(str));
         setInternTo(str);
+        dispatch(setArrDataFilterActionCreator(arrData));
         return toValue;
 
       case 'base':
-        dispatch(SetBaseActionCreator(str.slice(0,3)));
+        dispatch(SetBaseActionCreator(str));
         setInternBase(str.slice(0,3));
+        dispatch(setArrDataFilterActionCreator(arrData));
         return baseValue;
 
         default:
@@ -133,9 +139,16 @@ export const Search: React.FC<Props> = (props) => {
 
   useEffect(() => {
     if (arrData.length === 0) {
-      dispatch(setArrDataFilterActionCreator(getJsonApiArray));
+      getJsonApiArray().then((data) => dispatch(setArrDataFilterActionCreator(data)));
     }
-  }, []);
+
+    if (invert) {
+      setInternFrom(fromValue);
+      setInternTo(toValue);
+      dispatch(SetReverseActionCreator(false));
+    }
+  
+  }, [invert]);
 
   return (
     <div className="search">
@@ -165,11 +178,11 @@ export const Search: React.FC<Props> = (props) => {
               className="search__item list-group-item list-group-item-action"
               key={data[0]}
               onClick={() => {
-                onClickLi(data.join(' '), type);
+                onClickLi(data[0], type);
                 setDisplaySelect(false);
               }}
             >
-              {data.join(' ')}
+              {`${data}`}
             </li>
           ))}
         </ul>

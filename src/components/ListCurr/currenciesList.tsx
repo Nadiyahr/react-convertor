@@ -1,30 +1,25 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getExchangeratesData } from '../../api';
-import { getBase, getCurrenciesSelector, getRenderOutput, grtExchangeRates } from '../../store/selectors';
-import './currenciesList.scss';
-import { FC, useEffect } from 'react';
-import { setExchangeRatesActionCreator } from '../../store/actions';
+import React, { FC, useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { getBase, grtExchangeRates } from '../../store/selectors';
 import { Search } from '../search';
-import { exch } from '../../api/consts';
+import { getExchangeratesData } from '../../api';
+import './currenciesList.scss';
 
 export const CurrenciesList: FC = () => {
-  const dispatch = useDispatch();
-  // const currencies = useSelector(getCurrenciesSelector);
   const exchangeArr = useSelector(grtExchangeRates);
   const baseValue = useSelector(getBase);
-  // const isRenderOk = useSelector(getRenderOutput);
-  const arr = Object.entries(exch);
-  const combineArr = arr.filter(item => exchangeArr.includes(item[0]) && item[0] !== baseValue);
+  const [resultRates, setResultRates] = useState<string[][]>([]);
+  const combineArr = resultRates.filter(item => exchangeArr.includes(item[0]) && item[0] !== baseValue);
 
-  // if ()
+  const convert = (val: string) => {
+    const number = 1 / Number(val);
+
+    return number.toFixed(2);
+  };
 
   useEffect(() => {
-    // getExchangeratesData();
-    //  .then(console.log);
-      //  (exchange) => dispatch(setListExchangeActionCreator(exchange)));
-  },[]);
+    getExchangeratesData(baseValue).then(data => setResultRates(Object.entries(data)));
+  },[baseValue]);
 
   return (
     <div className="List">
@@ -33,7 +28,7 @@ export const CurrenciesList: FC = () => {
       <ul className="list-group list-group-flush">
         {combineArr.map((item: string[]) => (
           <li className="List__item list-group-item list-group-item-dark" key={item[0]}>
-            {`1 ${baseValue.slice(0.3)} = ${Number(item[1]).toFixed(2)} ${item[0]}`}
+            {`1 ${item[0]} = ${convert(item[1])} ${baseValue.slice(0.3)}`}
           </li>
         ))}
       </ul>

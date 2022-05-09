@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import './App.scss';
@@ -15,7 +14,7 @@ const App: React.FC = () => {
           className="app__btn btn btn-pink"
           role="button"
         >
-          Home
+          Calculator
         </Link>
         <Link
           to="/list"

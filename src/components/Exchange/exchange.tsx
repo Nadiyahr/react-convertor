@@ -1,9 +1,19 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getJsonApiArray } from '../../api';
-import { SetInvertActionCreator, setCurrenciesActionCreator, setFromActionCreator, SetRenderOutputActionCreator, setToActionCreator } from '../../store/actions';
-import { getCurrenciesSelector, getFromSlector, getInvert, getRenderOutput, getToSelector } from '../../store/selectors';
+import { getExchangeRates, getJsonApiArray } from '../../api';
+import {
+  SetReverseActionCreator,
+  setCurrenciesActionCreator,
+  setFromActionCreator,
+  SetRenderOutputActionCreator,
+  setToActionCreator,
+} from '../../store/actions';
+import {
+  getCurrenciesSelector,
+  getFromSlector,
+  getRenderOutput,
+  getToSelector,
+} from '../../store/selectors';
 import { Search } from '../search';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRotate } from '@fortawesome/free-solid-svg-icons';
@@ -15,7 +25,6 @@ export const Exchange = () => {
   const selectedFrom = useSelector(getFromSlector);
   const selectedTo = useSelector(getToSelector);
   const renderResult = useSelector(getRenderOutput);
-  const invert = useSelector(getInvert);
   const [amount, setAmount] = useState('');
   const [convertAmount, setConvertAmount] = useState(0);
   
@@ -41,33 +50,36 @@ export const Exchange = () => {
   };
 
   const invertCurrencies = () => {
-    dispatch(SetInvertActionCreator(true));
-    console.log(invert);
+    const temoraryFtom = selectedFrom;
+
+    dispatch(setFromActionCreator(selectedTo));
+    dispatch(setToActionCreator(temoraryFtom));
+    dispatch(SetReverseActionCreator(true));
   };
 
   const convertRes = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    dispatch(SetRenderOutputActionCreator(true));
+
     if (isNaN(+amount)) {
       const newFrom = amount.replace(/\d/g, '').trim().slice(0,3).toUpperCase();
       const newTo = amount.replace(/\d/g, '').trim().slice(-3).toUpperCase();
-      setAmount(amount.replace(/\D/g, ''));
       dispatch(setFromActionCreator(currencies.find(x => x[0] === newFrom)!.join(' ')));
       dispatch(setToActionCreator(currencies.find(x => x[0] === newTo)!.join(' ')));
     }
-    console.log(amount, selectedFrom.slice(0,3), selectedTo.slice(0,3));
-    // const getExchange: Result = await getExchangeRates(amount, selectedFrom, selectedTo);
-    // console.log(getExchange.result.toFixed(2));
-    // const result = getExchange.result.toFixed(2);
-    return setConvertAmount(32);
-    // setConvertAmount(+result);
+    const getExchange: Result = await getExchangeRates(amount.replace(/\D/g, ''), selectedFrom.slice(0,3), selectedTo.slice(0,3));
+    const result = getExchange.result.toFixed(2);
+
+    dispatch(SetRenderOutputActionCreator(true));
+
+    return setConvertAmount(+result);
   };
 
   useEffect(() => {
-    // getJsonApiArray()
-    //   .then((curr) => dispatch(setCurrenciesActionCreator(curr)));
+    if (currencies.length === 0) {
+      getJsonApiArray()
+        .then((curr) => dispatch(setCurrenciesActionCreator(curr)));
+    }
     dispatch(SetRenderOutputActionCreator(false));
-    dispatch(setCurrenciesActionCreator(getJsonApiArray));
   }, []);
 
   return (
@@ -120,7 +132,3 @@ export const Exchange = () => {
     </form>
   );
 };
-function setInvert(arg0: boolean): any {
-  throw new Error('Function not implemented.');
-}
-

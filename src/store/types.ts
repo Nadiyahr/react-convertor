@@ -1,15 +1,16 @@
 import { Action as BaseAction } from 'redux';
 
 export interface State {
-  currencies: string[][]
+  currencies: string[][],
   // currencies: Currency[],
   fromCurr: string,
   toCurr: string,
   arrDataFilter: string[][],
+  // arrDataFilter: Currency[],
   exchangeRates: string[],
   base: string,
   renderOutput: boolean,
-  invert: boolean,
+  reverse: boolean,
 }
 
 export interface Action<T, P> extends BaseAction<T> {
@@ -24,7 +25,7 @@ export enum ActionsTypes {
   SetExchangeRates = 'SetExchangeRates',
   SetBase = 'SetBase',
   SetRenderOutput = 'SetRenderOutput',
-  SetInvert = 'SetInvert',
+  SetReverse = 'SetReverse',
 }
 
 export type SetCurrenciesAction = Action<ActionsTypes.SetCurrencies, string[][]>;
@@ -34,7 +35,7 @@ export type SetArrDataFilterAction = Action<ActionsTypes.SetArrDataFilter, strin
 export type SetExchangeRatesAction = Action<ActionsTypes.SetExchangeRates, string[]>;
 export type SetBaseAction = Action<ActionsTypes.SetBase, string>;
 export type SetRenderOutputAction = Action<ActionsTypes.SetRenderOutput, boolean>;
-export type SetInvertAction = Action<ActionsTypes.SetInvert, boolean>;
+export type SetReverseAction = Action<ActionsTypes.SetReverse, boolean>;
 
 
 export type Actions = SetCurrenciesAction
@@ -44,4 +45,4 @@ export type Actions = SetCurrenciesAction
   | SetExchangeRatesAction
   | SetBaseAction
   | SetRenderOutputAction
-  | SetInvertAction;
+  | SetReverseAction;

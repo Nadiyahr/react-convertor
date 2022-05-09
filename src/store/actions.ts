@@ -1,5 +1,13 @@
 import {
-  ActionsTypes, SetArrDataFilterAction, SetBaseAction, SetCurrenciesAction, SetExchangeRatesAction, SetFromAction, SetInvertAction, SetRenderOutputAction, SetToAction,
+  ActionsTypes,
+  SetArrDataFilterAction,
+  SetBaseAction,
+  SetCurrenciesAction,
+  SetExchangeRatesAction,
+  SetFromAction,
+  SetReverseAction,
+  SetRenderOutputAction,
+  SetToAction,
 } from './types';
 
 export const setCurrenciesActionCreator = (payload: string[][]): SetCurrenciesAction => ({
@@ -37,7 +45,7 @@ export const SetRenderOutputActionCreator = (payload: boolean): SetRenderOutputA
   payload,
 });
 
-export const SetInvertActionCreator = (payload: boolean): SetInvertAction => ({
-  type: ActionsTypes.SetInvert,
+export const SetReverseActionCreator = (payload: boolean): SetReverseAction => ({
+  type: ActionsTypes.SetReverse,
   payload,
 });
