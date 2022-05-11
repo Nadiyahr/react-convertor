@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Routes, Route, Link } from 'react-router-dom';
 import { getJsonApiArray } from './api';
-import { Exchange } from './components/Calculator';
+import { Calculator } from './components/Calculator';
 import { CurrenciesList } from './components/CurrenciesList';
 import { setCurrenciesActionCreator } from './store/actions';
 import './App.scss';
@@ -35,7 +35,7 @@ const App: React.FC = () => {
         </Link>
       </nav>
       <Routes>
-        <Route path="/" element={<Exchange/>} />
+        <Route path="/" element={<Calculator/>} />
         <Route path="/list" element={<CurrenciesList/>} />
       </Routes>
     </div>

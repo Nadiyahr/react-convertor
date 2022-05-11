@@ -13,12 +13,12 @@ import {
   getRenderOutput,
   getToSelector,
 } from '../../store/selectors';
-import { Search } from '../Selects';
+import { Select } from '../Selects';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRotate } from '@fortawesome/free-solid-svg-icons';
-import './calculator.scss';
+import './Calculator.scss';
 
-export const Exchange = () => {
+export const Calculator = () => {
   const dispatch = useDispatch();
   const currencies = useSelector(getCurrenciesSelector);
   const selectedFrom = useSelector(getFromSlector);
@@ -108,7 +108,7 @@ export const Exchange = () => {
         />
       </div>
       <div className="convertor__selectors">
-        <Search
+        <Select
           type="from"
         />
         <button
@@ -118,7 +118,7 @@ export const Exchange = () => {
         >
           <FontAwesomeIcon icon={faRotate} />
         </button>
-        <Search
+        <Select
           type="to"
         />
       </div>

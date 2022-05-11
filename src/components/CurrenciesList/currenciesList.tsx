@@ -2,9 +2,9 @@
 import React, { FC, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { getBase, grtExchangeRates } from '../../store/selectors';
-import { Search } from '../Selects';
+import { Select } from '../Selects';
 import { getExchangeratesData } from '../../api';
-import './currenciesList.scss';
+import './CurrenciesList.scss';
 
 export const CurrenciesList: FC = () => {
   const exchangeArr = useSelector(grtExchangeRates);
@@ -26,7 +26,7 @@ export const CurrenciesList: FC = () => {
   return (
     <div className="List">
       <h3>List Of Exchange Rates</h3>
-      <Search type="base" />
+      <Select type="base" />
       <ul className="list-group list-group-flush">
         {combineArr.map((item: string[]) => (
           <li className="List__item list-group-item list-group-item-dark" key={item[0]}>

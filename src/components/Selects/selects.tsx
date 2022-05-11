@@ -18,13 +18,13 @@ import {
 } from '../../store/actions';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import './selects.scss';
+import './Selects.scss';
 
 type Props = {
   type: string,
 };
 
-export const Search: React.FC<Props> = (props) => {
+export const Select: React.FC<Props> = (props) => {
   const dispatch = useDispatch();
   const { type } = props;
   const arrData = useSelector(getCurrenciesSelector);
