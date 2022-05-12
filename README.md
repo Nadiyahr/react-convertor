@@ -1,4 +1,5 @@
 # Convertor Curencies Test Task
+### (Redux Toolkit)
 
 [Demo](https://nadiyahr.github.io/convertor/) - available on gh-pages
 
@@ -8,6 +9,8 @@
 
 * React.js v17
 * Redux v4
+* Redux Toolkit
+* RTK
 * React Router v6
 * Typescript
 * SCSS preprocesor
@@ -20,8 +23,8 @@
 - Consists of two pages - Calculator and List Exchange Rates.
 - To get started, you can type '100 usd in uah' in the Calculator input, click 'Convert' and see the result in real time.
 - Or type only the desired amount in the input and choose the currencies to convert, from the dedicated selects.
-- On the List page you can see the current rates based on default currency (UAH) and change the base currency to one of the 166 available currencies.
 - It is also possible to change currency in the selects by pressing the 'reverse' button.
+- On the List page you can see the current rates based on default currency (UAH) and change the base currency to one of the 166 available currencies.
 
 (The amount of requests is limited to 100 per month for free plan.)
 
