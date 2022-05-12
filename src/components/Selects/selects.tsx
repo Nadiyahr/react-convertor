@@ -1,38 +1,30 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react';
+import { RootState } from '../../app/store';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  getFromSlector,
-  getCurrenciesSelector,
-  getToSelector,
-  getArrDataFilter,
-  getBase,
-  getReverse,
-} from '../../store/selectors';
-import {
-  setArrDataFilterActionCreator,
-  SetBaseActionCreator,
-  setFromActionCreator,
-  SetReverseActionCreator,
-  SetRenderOutputActionCreator,
-  setToActionCreator,
-} from '../../store/actions';
-import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import { isShouldReverse } from '../../features/reverseSlice';
+import { isShouldRender } from '../../features/renderSlice';
+import { loadFiltredCurrenciess } from '../../features/filterSlice';
+import { loadFromValue } from '../../features/fromSlice';
+import { loadToValue } from '../../features/toSlice';
+import { loadBaseValue } from '../../features/baseSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import './Selects.scss';
 
 type Props = {
   type: string,
 };
 
-export const Select: React.FC<Props> = (props) => {
+export const Selects: React.FC<Props> = (props) => {
   const dispatch = useDispatch();
   const { type } = props;
-  const arrData = useSelector(getCurrenciesSelector);
-  const fromValue = useSelector(getFromSlector);
-  const toValue = useSelector(getToSelector);
-  const baseValue = useSelector(getBase);
-  const arrDataFilter = useSelector(getArrDataFilter);
-  const invert = useSelector(getReverse);
+  const arrData = useSelector((state: RootState) => state.currencies.data);
+  const fromValue = useSelector((state: RootState) => state.fromValue.value);
+  const toValue = useSelector((state: RootState) => state.toValue.value);
+  const baseValue = useSelector((state: RootState) => state.baseValue.value);
+  const arrDataFilter = useSelector((state: RootState) => state.filtredCurrencies.array);
+  const invert = useSelector((state: RootState) => state.reverse.value);
   const [internFrom, setInternFrom] = useState(fromValue);
   const [internTo, setInternTo] = useState(toValue);
   const [internBase, setInternBase] = useState(baseValue);
@@ -56,8 +48,8 @@ export const Select: React.FC<Props> = (props) => {
 
   const onFocus = (selectType: string) => {
     setDisplaySelect(true);
-    dispatch(SetRenderOutputActionCreator(false));
-    dispatch(setArrDataFilterActionCreator(arrData));
+    dispatch(isShouldRender(false));
+    dispatch(loadFiltredCurrenciess(arrData));
 
     switch (selectType) {
       case 'from':
@@ -103,27 +95,27 @@ export const Select: React.FC<Props> = (props) => {
       ? data
       : data[0].toLowerCase().includes(value.toLowerCase()));
 
-    dispatch(setArrDataFilterActionCreator(filtredArr));
+    dispatch(loadFiltredCurrenciess(filtredArr));
   };
 
   const onClickLi = (str: string, type: string) => {
     switch (type) {
       case 'from':
-        dispatch(setFromActionCreator(str));
+        dispatch(loadFromValue(str));
         setInternFrom(str);
-        dispatch(setArrDataFilterActionCreator(arrData));
+        dispatch(loadFiltredCurrenciess(arrData));
         return fromValue;
 
       case 'to':
-        dispatch(setToActionCreator(str));
+        dispatch(loadToValue(str));
         setInternTo(str);
-        dispatch(setArrDataFilterActionCreator(arrData));
+        dispatch(loadFiltredCurrenciess(arrData));
         return toValue;
 
       case 'base':
-        dispatch(SetBaseActionCreator(str));
+        dispatch(loadBaseValue(str));
         setInternBase(str.slice(0,3));
-        dispatch(setArrDataFilterActionCreator(arrData));
+        dispatch(loadFiltredCurrenciess(arrData));
         return baseValue;
 
         default:
@@ -131,13 +123,14 @@ export const Select: React.FC<Props> = (props) => {
     }
   };
 
+
   useEffect(() => {
     if (invert) {
       setInternFrom(fromValue);
       setInternTo(toValue);
-      dispatch(SetReverseActionCreator(false));
+      dispatch(isShouldReverse(false));
     }  
-  }, [invert]);
+  }, [invert,]);
 
   return (
     <div className="search">

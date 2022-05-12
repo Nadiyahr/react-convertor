@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface RverseState {
-  reverse: boolean
+  value: boolean
 }
 
 const initialState: RverseState = {
-  reverse: true
+  value: true
 };
 
 export const reverse = createSlice({
@@ -13,7 +13,7 @@ export const reverse = createSlice({
   initialState,
   reducers: {
     isShouldReverse: (state, action: PayloadAction<boolean>) => {
-      state.reverse = action.payload;
+      state.value = action.payload;
     }
   }
 });

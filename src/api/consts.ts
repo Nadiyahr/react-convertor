@@ -1,5 +1,5 @@
-// export const BASE_URL = 'https://api.apilayer.com/fixer';
-export const BASE_URL = 'https://api.apilayer.com/exchangerates_data';
+export const BASE_URL = 'https://api.apilayer.com/fixer';
+// export const BASE_URL = 'https://api.apilayer.com/exchangerates_data';
 const myHeaders = new Headers();
 
 //myHeaders.append('apikey'', 'QcNkBWCbg01lRNKI6H64YumEVU0shxS7');

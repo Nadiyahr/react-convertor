@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface FilterState {
-  filtredCurrencies: string[][]
+  array: string[][]
 }
 
 const initialState: FilterState = {
-  filtredCurrencies: []
+  array: []
 };
 
 export const filterSlice = createSlice({
@@ -13,7 +13,7 @@ export const filterSlice = createSlice({
   initialState,
   reducers: {
     loadFiltredCurrenciess: (state, action: PayloadAction<string[][]>) => {
-      [...state.filtredCurrencies, ...action.payload];
+      state.array = action.payload;
     }
   }
 });

@@ -1,16 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { FC, useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { getBase, grtExchangeRates } from '../../store/selectors';
-import { Select } from '../Selects';
+import { RootState } from '../../app/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { Selects } from '../Selects';
 import { getExchangeratesData } from '../../api';
+import { loadFiltredCurrenciess } from '../../features/filterSlice';
 import './CurrenciesList.scss';
 
 export const CurrenciesList: FC = () => {
-  const exchangeArr = useSelector(grtExchangeRates);
-  const baseValue = useSelector(getBase);
+  const dispatch = useDispatch();
+  const baseValue = useSelector((state: RootState) => state.baseValue.value);
   const [resultRates, setResultRates] = useState<string[][]>([]);
-  const combineArr = resultRates.filter(item => exchangeArr.includes(item[0]) && item[0] !== baseValue);
+  const exchangeRates = ['USD','EUR','PLN','CZK','GBP','UAH'];
+  const combineArr = resultRates.filter(item => exchangeRates.includes(item[0]) && item[0] !== baseValue);
 
   const convert = (val: string) => {
     const number = 1 / Number(val);
@@ -26,7 +28,7 @@ export const CurrenciesList: FC = () => {
   return (
     <div className="List">
       <h3>List Of Exchange Rates</h3>
-      <Select type="base" />
+      <Selects type="base" />
       <ul className="list-group list-group-flush">
         {combineArr.map((item: string[]) => (
           <li className="List__item list-group-item list-group-item-dark" key={item[0]}>

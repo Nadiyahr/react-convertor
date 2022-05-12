@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface ToState {
-  toValue: string
+  value: string
 }
 
 const initialState: ToState = {
-  toValue: 'USD United States Dollar'
+  value: 'USD United States Dollar'
 };
 
 export const toSlice = createSlice({
@@ -13,7 +13,7 @@ export const toSlice = createSlice({
   initialState,
   reducers: {
     loadToValue: (state, action: PayloadAction<string>) => {
-      state.toValue = action.payload;
+      state.value = action.payload;
     }
   }
 });

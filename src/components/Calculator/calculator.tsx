@@ -1,42 +1,35 @@
 import React, { useEffect, useState } from 'react';
+import { RootState } from '../../app/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { getExchangeRates } from '../../api';
-import {
-  SetReverseActionCreator,
-  setFromActionCreator,
-  SetRenderOutputActionCreator,
-  setToActionCreator,
-} from '../../store/actions';
-import {
-  getCurrenciesSelector,
-  getFromSlector,
-  getRenderOutput,
-  getToSelector,
-} from '../../store/selectors';
-import { Select } from '../Selects';
+import { loadFromValue } from '../../features/fromSlice';
+import { loadToValue } from '../../features/toSlice';
+import { isShouldReverse } from '../../features/reverseSlice';
+import { isShouldRender } from '../../features/renderSlice';
+import { Selects } from '../Selects';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRotate } from '@fortawesome/free-solid-svg-icons';
 import './Calculator.scss';
+import { loadPrepareQuery } from '../../features/preparedQuerySlice';
+import { Result } from '../Result';
 
 export const Calculator = () => {
   const dispatch = useDispatch();
-  const currencies = useSelector(getCurrenciesSelector);
-  const selectedFrom = useSelector(getFromSlector);
-  const selectedTo = useSelector(getToSelector);
-  const renderResult = useSelector(getRenderOutput);
+  const currencies = useSelector((state: RootState) => state.currencies.data);
+  const selectedFrom = useSelector((state: RootState) => state.fromValue.value);
+  const selectedTo = useSelector((state: RootState) => state.toValue.value);
   const [amount, setAmount] = useState('');
-  const [convertAmount, setConvertAmount] = useState(0);
   
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const { value, name } = event.target;
 
+
     switch (name) {
       case 'selectedFrom':
-        dispatch(setFromActionCreator(value));
+        dispatch(loadFromValue(value));
         break;
 
       case 'selectedTo':
-        dispatch(setToActionCreator(value));
+        dispatch(loadToValue(value));
         break;
 
       case 'amount':
@@ -51,9 +44,11 @@ export const Calculator = () => {
   const invertCurrencies = () => {
     const temoraryFtom = selectedFrom;
 
-    dispatch(setFromActionCreator(selectedTo));
-    dispatch(setToActionCreator(temoraryFtom));
-    dispatch(SetReverseActionCreator(true));
+    dispatch(loadFromValue(selectedTo));
+    dispatch(loadToValue(temoraryFtom));
+    dispatch(isShouldReverse(true));
+    dispatch(isShouldRender(false));
+    convertRes();
   };
 
   const validator = (enterValue: string) => {
@@ -66,28 +61,31 @@ export const Calculator = () => {
     return RegExp.test(enterValue);
   };
 
-  const convertRes = async (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
+  const convertRes = async () => {
     if (validator(amount)) {
+  
       if (isNaN(+amount)) {
         const newFrom = amount.replace(/\d/g, '').trim().slice(0,3).toUpperCase();
         const newTo = amount.replace(/\d/g, '').trim().slice(-3).toUpperCase();
-        dispatch(setFromActionCreator(currencies.find(x => x[0] === newFrom)!.join(' ')));
-        dispatch(setToActionCreator(currencies.find(x => x[0] === newTo)!.join(' ')));
+
+        dispatch(loadFromValue(currencies.find(x => x[0] === newFrom)!.join(' ')));
+        dispatch(loadToValue(currencies.find(x => x[0] === newTo)!.join(' ')));
       }
 
-      const getExchange: Result = await getExchangeRates(amount.replace(/\D/g, ''), selectedFrom.slice(0,3), selectedTo.slice(0,3));
-      const result = getExchange.result.toFixed(2);
+      const paramsQuery = {
+        amountFrom: amount.replace(/\D/g, ''),
+        from: selectedFrom.slice(0,3),
+        to: selectedTo.slice(0,3)
+      };
 
-      dispatch(SetRenderOutputActionCreator(true));
+      const preparedQuery = `/convert?to=${paramsQuery.to}&from=${paramsQuery.from}&amount=${paramsQuery.amountFrom}`;
 
-      return setConvertAmount(+result);
+      dispatch(loadPrepareQuery(preparedQuery));
     }
   };
 
   useEffect(() => {
-
-    dispatch(SetRenderOutputActionCreator(false));
+    dispatch(isShouldRender(false));
   }, []);
 
   return (
@@ -108,7 +106,7 @@ export const Calculator = () => {
         />
       </div>
       <div className="convertor__selectors">
-        <Select
+        <Selects
           type="from"
         />
         <button
@@ -118,24 +116,21 @@ export const Calculator = () => {
         >
           <FontAwesomeIcon icon={faRotate} />
         </button>
-        <Select
+        <Selects
           type="to"
         />
       </div>
       <div className="mb-3">
         <button
           type="button"
-          onClick={(e) => convertRes(e)}
+          onClick={() => convertRes()}
           className="btn btn-primary w-100"
         >
           Convert
         </button>
       </div>
       <div className="convertor__inner">
-        <h4>
-          {renderResult
-          && `${amount} ${selectedFrom.slice(0,3)} = ${convertAmount} ${selectedTo.slice(0,3)}`}
-        </h4>
+        <Result />
       </div>
     </form>
   );

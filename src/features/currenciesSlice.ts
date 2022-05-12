@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface CurenciesState {
-  currencies: string[][]
+  data: string[][]
 }
 
 const initialState: CurenciesState = {
-  currencies: []
+  data: []
 };
 
 export const currenciesSlice = createSlice({
@@ -13,11 +13,11 @@ export const currenciesSlice = createSlice({
   initialState,
   reducers: {
     loadCurrencies: (state, action: PayloadAction<string[][]>) => {
-      [...state.currencies, ...action.payload];
+      state.data = action.payload;
     }
   }
 });
 
 export const { loadCurrencies } = currenciesSlice.actions;
 
-export default currenciesSlice.reducer;
+export const currenciesReducer = currenciesSlice.reducer;

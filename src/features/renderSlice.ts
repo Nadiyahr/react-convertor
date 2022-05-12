@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface RenderState {
-  render: boolean
+  value: boolean
 }
 
 const initialState: RenderState = {
-  render: true
+  value: true
 };
 
 export const render = createSlice({
@@ -13,7 +13,7 @@ export const render = createSlice({
   initialState,
   reducers: {
     isShouldRender: (state, action: PayloadAction<boolean>) => {
-      state.render = action.payload;
+      state.value = action.payload;
     }
   }
 });
