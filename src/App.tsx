@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Routes, Route, Link } from 'react-router-dom';
@@ -11,6 +10,7 @@ import './App.scss';
 const App: React.FC = () => {
   const dispatch = useDispatch();
   const{ data } = useGetCurrenciesQuery('list');
+
   const array = Object.entries(data?.currencies || {});
 
   useEffect(() => {

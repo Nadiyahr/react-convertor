@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { currenciesReducer } from '../features/currenciesSlice';
@@ -10,9 +9,6 @@ import renderReducer from '../features/renderSlice';
 import reverseReducer from '../features/reverseSlice';
 import { currenciesApi } from '../services/currenciesApi';
 import prepareQueryReducer from '../features/preparedQuerySlice';
-
-
-
 
 export const store = configureStore({
   reducer: {

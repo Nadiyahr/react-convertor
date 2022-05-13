@@ -8,9 +8,9 @@ import { isShouldRender } from '../../features/renderSlice';
 import { Selects } from '../Selects';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRotate } from '@fortawesome/free-solid-svg-icons';
-import './Calculator.scss';
 import { loadPrepareQuery } from '../../features/preparedQuerySlice';
 import { Result } from '../Result';
+import './Calculator.scss';
 
 export const Calculator = () => {
   const dispatch = useDispatch();

@@ -17,7 +17,8 @@ export const Result: FC = () => {
   return (
     <h4>
       {data && render &&
-       `${data.query.amount} ${data.query.from} = ${data.result.toFixed(2)} ${data.query.to}`}
+       `${data.query.amount} ${data.query.from} = ${data.result.toFixed(2)} ${data.query.to}`
+      }
     </h4>
   );
 };
