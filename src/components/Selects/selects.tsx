@@ -117,7 +117,8 @@ export const Selects: React.FC<Props> = (props) => {
           break;
     }
   };
-
+  console.log(arrDataFilter);
+  console.log(arrData);
 
   useEffect(() => {
     if (invert) {

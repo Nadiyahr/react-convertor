@@ -7,7 +7,7 @@ interface Currency {
 
 interface Currencies {
   success: boolean,
-  currencies: { [k: string]: string }
+  symbols: { [k: string]: string }
 }
 
 interface Result {

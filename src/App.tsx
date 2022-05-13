@@ -10,14 +10,11 @@ import './App.scss';
 const App: React.FC = () => {
   const dispatch = useDispatch();
   const{ data } = useGetCurrenciesQuery('symbols');
-
-  const array = Object.entries(data?.currencies || {});
+  const array = Object.entries(data?.symbols || {});
 
   useEffect(() => {
-    if (data) {
       dispatch(loadCurrencies(array));
-    }
-  },[data]);
+  },[array]);
 
   return (
     <div className="app">
