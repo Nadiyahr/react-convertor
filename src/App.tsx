@@ -9,7 +9,7 @@ import './App.scss';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
-  const{ data } = useGetCurrenciesQuery('list');
+  const{ data } = useGetCurrenciesQuery('symbols');
 
   const array = Object.entries(data?.currencies || {});
 
