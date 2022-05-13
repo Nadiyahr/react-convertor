@@ -14,6 +14,7 @@ import './Calculator.scss';
 
 export const Calculator = () => {
   const dispatch = useDispatch();
+  const query = useSelector((state: RootState) => state.prepareString.query);
   const currencies = useSelector((state: RootState) => state.currencies.data);
   const selectedFrom = useSelector((state: RootState) => state.fromValue.value);
   const selectedTo = useSelector((state: RootState) => state.toValue.value);
@@ -21,7 +22,6 @@ export const Calculator = () => {
   
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const { value, name } = event.target;
-
 
     switch (name) {
       case 'selectedFrom':
@@ -130,7 +130,7 @@ export const Calculator = () => {
         </button>
       </div>
       <div className="convertor__inner">
-        <Result />
+        {query && <Result />}
       </div>
     </form>
   );
