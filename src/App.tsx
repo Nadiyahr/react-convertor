@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux';
 import { Routes, Route, Link } from 'react-router-dom';
 import { Calculator } from './components/Calculator';
 import { CurrenciesList } from './components/CurrenciesList';
-import { loadCurrencies } from './features/currenciesSlice';
-import { useGetCurrenciesQuery } from './services/currenciesApi';
+import { loadCurrencies } from './store/features/currencies/currenciesSlice';
+import { useGetCurrenciesQuery } from './store/services/currenciesApi';
 import './App.scss';
 
 const App: React.FC = () => {

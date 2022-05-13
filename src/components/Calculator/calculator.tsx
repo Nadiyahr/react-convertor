@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { RootState } from '../../app/store';
+import { RootState } from '../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadFromValue } from '../../features/fromSlice';
-import { loadToValue } from '../../features/toSlice';
-import { isShouldReverse } from '../../features/reverseSlice';
-import { isShouldRender } from '../../features/renderSlice';
+import { loadFromValue } from '../../store/features/from/fromSlice';
+import { loadToValue } from '../../store/features/to/toSlice';
+import { isShouldReverse } from '../../store/features/reverse/reverseSlice';
+import { isShouldRender } from '../../store/features/render/renderSlice';
 import { Selects } from '../Selects';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRotate } from '@fortawesome/free-solid-svg-icons';
-import { loadPrepareQuery } from '../../features/preparedQuerySlice';
+import { loadPrepareQuery } from '../../store/features/preparedQuery/preparedQuerySlice';
 import { Result } from '../Result';
 import './Calculator.scss';
 
@@ -22,6 +22,14 @@ export const Calculator = () => {
   
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const { value, name } = event.target;
+
+    // const switcCase = {
+    //   selectedFrom: dispatch(loadFromValue(value)),
+    //   selectedTo: dispatch(loadToValue(value)),
+    //   amount: setAmount(value),
+    // };
+
+    // switcCase[name](name);
 
     switch (name) {
       case 'selectedFrom':

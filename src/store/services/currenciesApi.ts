@@ -11,7 +11,6 @@ export const currenciesApi = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({baseUrl: baseUrl, prepareHeaders: (headers ) => {
     headers.set('apikey', apiKey);
-    
     return headers;
   }}),
   endpoints: (builder) => ({

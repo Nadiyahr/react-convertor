@@ -1,8 +1,8 @@
 import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../app/store';
-import { isShouldRender } from '../../features/renderSlice';
-import { useGetExchangeRatesQuery } from '../../services/currenciesApi';
+import { RootState } from '../../store/store';
+import { isShouldRender } from '../../store/features/render/renderSlice';
+import { useGetExchangeRatesQuery } from '../../store/services/currenciesApi';
 
 export const Result: FC = () => {
   const dispatch = useDispatch();

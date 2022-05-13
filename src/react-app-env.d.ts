@@ -23,3 +23,7 @@ interface Result {
 interface Curr {
   [k: string]: string
 }
+
+interface Switch {
+  [k: string]: (value: React.SetStateAction<string>) => void
+}

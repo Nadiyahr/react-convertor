@@ -1,14 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
-import { currenciesReducer } from '../features/currenciesSlice';
-import fromReducer from '../features/fromSlice';
-import toReducer from '../features/toSlice';
-import filterReducer from '../features/filterSlice';
-import baseReducer from '../features/baseSlice';
-import renderReducer from '../features/renderSlice';
-import reverseReducer from '../features/reverseSlice';
-import { currenciesApi } from '../services/currenciesApi';
-import prepareQueryReducer from '../features/preparedQuerySlice';
+import { currenciesReducer } from './features/currencies/currenciesSlice';
+import fromReducer from './features/from/fromSlice';
+import toReducer from './features/to/toSlice';
+import filterReducer from './features/filter/filterSlice';
+import baseReducer from './features/base/baseSlice';
+import renderReducer from './features/render/renderSlice';
+import reverseReducer from './features/reverse/reverseSlice';
+import { currenciesApi } from './services/currenciesApi';
+import prepareQueryReducer from './features/preparedQuery/preparedQuerySlice';
 
 export const store = configureStore({
   reducer: {

@@ -1,8 +1,8 @@
 import React, { FC, useState, useEffect } from 'react';
-import { RootState } from '../../app/store';
+import { RootState } from '../../store/store';
 import { useSelector } from 'react-redux';
 import { Selects } from '../Selects';
-import { useGetListRaresQuery } from '../../services/currenciesApi';
+import { useGetListRaresQuery } from '../../store/services/currenciesApi';
 import './CurrenciesList.scss';
 
 export const CurrenciesList: FC = () => {

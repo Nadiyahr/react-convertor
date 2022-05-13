@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react';
-import { RootState } from '../../app/store';
+import { RootState } from '../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { isShouldReverse } from '../../features/reverseSlice';
-import { isShouldRender } from '../../features/renderSlice';
-import { loadFiltredCurrenciess } from '../../features/filterSlice';
-import { loadFromValue } from '../../features/fromSlice';
-import { loadToValue } from '../../features/toSlice';
-import { loadBaseValue } from '../../features/baseSlice';
+import { isShouldReverse } from '../../store/features/reverse/reverseSlice';
+import { isShouldRender } from '../../store/features/render/renderSlice';
+import { loadFiltredCurrenciess } from '../../store/features/filter/filterSlice';
+import { loadFromValue } from '../../store/features/from/fromSlice';
+import { loadToValue } from '../../store/features/to/toSlice';
+import { loadBaseValue } from '../../store/features/base/baseSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import './Selects.scss';
@@ -31,19 +31,14 @@ export const Selects: React.FC<Props> = (props) => {
   const [displaySelect, setDisplaySelect] = useState(false);
 
   const setValue = (typeProps: string) => {
-    switch (typeProps){
-      case 'from':
-        return internFrom;
 
-      case 'to':
-        return internTo;
+    const switchTypes: Curr = {
+      'from': internFrom,
+      'to': internTo,
+      'base': internBase.slice(0,3)
+    };
 
-      case 'base':
-        return internBase.slice(0,3);
-
-      default:
-        break;
-    }
+    return switchTypes[typeProps];
   };
 
   const onFocus = (selectType: string) => {
