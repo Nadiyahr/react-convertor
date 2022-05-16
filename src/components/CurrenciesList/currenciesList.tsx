@@ -8,7 +8,6 @@ import './CurrenciesList.scss';
 export const CurrenciesList: FC = () => {
   const baseValue = useSelector((state: RootState) => state.baseValue.value);
   const exchangeRates = ['USD','EUR','PLN','CZK','GBP','UAH'];
-  // const query = `live?source=${baseValue.slice(0,3)}&currencies=${exchangeRates.join(',')}`;
   const query = `latest?symbols=${exchangeRates.join(',')}&base=${baseValue}`;
   const { data } = useGetListRatesQuery(query);
   const [resultRates, setResultRates] = useState<string[][]>([]);

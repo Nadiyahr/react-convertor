@@ -32,13 +32,13 @@ export const Selects: React.FC<Props> = (props) => {
 
   const setValue = (typeProps: string) => {
 
-    const switchTypes: Curr = {
+    const setValueTypesObj: Curr = {
       'from': internFrom,
       'to': internTo,
       'base': internBase
     };
 
-    return switchTypes[typeProps];
+    return setValueTypesObj[typeProps];
   };
 
   const onFocus = (selectType: string) => {
@@ -46,7 +46,7 @@ export const Selects: React.FC<Props> = (props) => {
     dispatch(isShouldRender(false));
     dispatch(loadFiltredCurrenciess(arrData));
 
-    const switchTypes: CurrFunc = {
+    const onFocusTypesObj: CurrFunc = {
       'from': () => {
         setInternFrom('');
         return internFrom;
@@ -61,7 +61,7 @@ export const Selects: React.FC<Props> = (props) => {
       }
     };
 
-    return switchTypes[selectType]();
+    return onFocusTypesObj[selectType]();
   };
 
   const onCange = (ev: React.ChangeEvent<HTMLInputElement>, typeS: string) => {
@@ -69,22 +69,13 @@ export const Selects: React.FC<Props> = (props) => {
 
     setDisplaySelect(true);
 
-    switch (typeS) {
-      case 'from':
-        setInternFrom(value.toUpperCase());
-        break;
+    const onCangeTypesObj: CurrSetState = {
+      'from': () => setInternFrom(value.toUpperCase()),
+      'to': () => setInternTo(value.toUpperCase()),
+      'base': () => setInternBase(value.toUpperCase())
+    };
 
-      case 'to':
-        setInternTo(value.toUpperCase());
-        break;
-
-      case 'base':
-        setInternBase(value.toUpperCase());
-        break;
-
-      default:
-        break;
-    }
+    onCangeTypesObj[typeS](value);
 
     const filtredArr = arrData.filter((data) => value === ''
       ? data
@@ -95,7 +86,7 @@ export const Selects: React.FC<Props> = (props) => {
 
   const onClickLi = (str: string, type: string) => {
 
-    const switchTypes: CurrFunc = {
+    const onClickTypesObj: CurrFunc = {
       'from': () => {
         dispatch(loadFromValue(str));
         setInternFrom(str);
@@ -116,7 +107,7 @@ export const Selects: React.FC<Props> = (props) => {
       }
     };
 
-    return switchTypes[type]();
+    return onClickTypesObj[type]();
   };
 
   useEffect(() => {

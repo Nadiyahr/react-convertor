@@ -27,3 +27,7 @@ interface Curr {
 interface CurrFunc {
   [k: string]: () => string
 }
+
+interface CurrSetState {
+  [k: string]: (value: React.SetStateAction<string>) => void
+}
