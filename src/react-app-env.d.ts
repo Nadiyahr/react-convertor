@@ -24,6 +24,6 @@ interface Curr {
   [k: string]: string
 }
 
-interface Switch {
-  [k: string]: (value: React.SetStateAction<string>) => void
+interface CurrFunc {
+  [k: string]: () => string
 }

@@ -5,7 +5,7 @@ export interface BaseState {
 }
 
 const initialState: BaseState = {
-  value: 'USD United States Dollar'
+  value: 'USD'
 };
 
 export const baseValue = createSlice({

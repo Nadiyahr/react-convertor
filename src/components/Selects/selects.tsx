@@ -35,7 +35,7 @@ export const Selects: React.FC<Props> = (props) => {
     const switchTypes: Curr = {
       'from': internFrom,
       'to': internTo,
-      'base': internBase.slice(0,3)
+      'base': internBase
     };
 
     return switchTypes[typeProps];
@@ -46,22 +46,22 @@ export const Selects: React.FC<Props> = (props) => {
     dispatch(isShouldRender(false));
     dispatch(loadFiltredCurrenciess(arrData));
 
-    switch (selectType) {
-      case 'from':
+    const switchTypes: CurrFunc = {
+      'from': () => {
         setInternFrom('');
         return internFrom;
-
-      case 'to':
+      },
+      'to': () => {
         setInternTo('');
         return internTo;
-
-      case 'base':
+      },
+      'base': () => {
         setInternBase('');
         return internBase;
+      }
+    };
 
-      default:
-        break;
-    }
+    return switchTypes[selectType]();
   };
 
   const onCange = (ev: React.ChangeEvent<HTMLInputElement>, typeS: string) => {
@@ -94,31 +94,30 @@ export const Selects: React.FC<Props> = (props) => {
   };
 
   const onClickLi = (str: string, type: string) => {
-    switch (type) {
-      case 'from':
+
+    const switchTypes: CurrFunc = {
+      'from': () => {
         dispatch(loadFromValue(str));
         setInternFrom(str);
         dispatch(loadFiltredCurrenciess(arrData));
         return fromValue;
-
-      case 'to':
+      },
+      'to': () => {
         dispatch(loadToValue(str));
         setInternTo(str);
         dispatch(loadFiltredCurrenciess(arrData));
         return toValue;
-
-      case 'base':
-        dispatch(loadBaseValue(str));
+      },
+      'base': () => {
+        dispatch(loadBaseValue(str.slice(0,3)));
         setInternBase(str.slice(0,3));
         dispatch(loadFiltredCurrenciess(arrData));
         return baseValue;
+      }
+    };
 
-        default:
-          break;
-    }
+    return switchTypes[type]();
   };
-  console.log(arrDataFilter);
-  console.log(arrData);
 
   useEffect(() => {
     if (invert) {

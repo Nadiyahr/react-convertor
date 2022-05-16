@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const apiKey = 'VrLd2rRsJm6EN0BsvafaQkLbWvU2jl91';
+const apiKey = 'kK7ypooCotCX37FG5EByLS8tADr3v9Xj';
+// const apiKey = 'VrLd2rRsJm6EN0BsvafaQkLbWvU2jl91';
 // const apiKey = 'QcNkBWCbg01lRNKI6H64YumEVU0shxS7';
 
 const baseUrl = 'https://api.apilayer.com/exchangerates_data/';
@@ -20,11 +21,11 @@ export const currenciesApi = createApi({
     getExchangeRates: builder.query<Result, string>({
       query: (combineStr) => combineStr,
     }),
-    getListRares: builder.query<Curr, string>({
+    getListRates: builder.query<Curr, string>({
       query: (baseQuery) => baseQuery
     })
   })
 });
 
-export const { useGetCurrenciesQuery, useGetExchangeRatesQuery, useGetListRaresQuery } = currenciesApi;
+export const { useGetCurrenciesQuery, useGetExchangeRatesQuery, useGetListRatesQuery } = currenciesApi;
  

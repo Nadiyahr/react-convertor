@@ -23,14 +23,6 @@ export const Calculator = () => {
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const { value, name } = event.target;
 
-    // const switchCase = {
-    //   selectedFrom: dispatch(loadFromValue(value)),
-    //   selectedTo: dispatch(loadToValue(value)),
-    //   amount: setAmount(value),
-    // };
-
-    // switcCase[name](name);
-
     switch (name) {
       case 'selectedFrom':
         dispatch(loadFromValue(value));
