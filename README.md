@@ -1,7 +1,7 @@
 # Convertor Curencies Test Task
 ### (Redux Toolkit)
 
-[Demo](https://nadiyahr.github.io/convertor/) - available on gh-pages
+[Demo](https://nadiyahr.github.io/react-convertor/) - available on gh-pages
 
 [Task](https://docs.google.com/document/d/1e8OCo1ou1gaHB1FhaLVWUj3hz62pfpQVS1ZQd1N8g-c/edit?usp=sharing) - the description of the task
 
